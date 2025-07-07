@@ -1,0 +1,5 @@
+﻿<linker>
+  <assembly fullname="PhasmophobiaMenuExternal">
+    <namespace fullname="PhasmophobiaMenuExternal.Cheats" preserve="all" />
+  </assembly>
+</linker>

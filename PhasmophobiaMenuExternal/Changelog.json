@@ -1,0 +1,131 @@
+﻿{
+  "Changelogs": {
+    "1.0.0": {
+      "Entries": {
+        "Added": [
+          {
+            "Name": "Welcome Message",
+            "Description": "Simple welcome message"
+          },
+          {
+            "Name": "Change Log",
+            "Description": "Shows everything added, changed, fixed, or removed"
+          },
+          {
+            "Name": "Infinite Sanity",
+            "Description": "Sets your sanity to 100 making it infinite."
+          },
+          {
+            "Name": "Infinite Stamina",
+            "Description": "Sets your stamina to 100 making it infinite."
+          },
+          {
+            "Name": "Speed Hack",
+            "Description": "Global speed hack toggle"
+          },
+          {
+            "Name": "Speed",
+            "Description": "The number the speed hack uses for your character speed"
+          },
+          {
+            "Name": "Gamma Hack",
+            "Description": "Global gamma toggle"
+          },
+          {
+            "Name": "Gamma",
+            "Description": "The number the gamma hack uses for the brightness"
+          },
+          {
+            "Name": "FOV Hack",
+            "Description": "Global fov toggle"
+          },
+          {
+            "Name": "FOV",
+            "Description": "The number the fov hack uses for your character field of view"
+          },
+          {
+            "Name": "Ghost Info",
+            "Description": "Shows general infomation about the ghost"
+          },
+          {
+            "Name": "Level Info",
+            "Description": "Shows general infomation about the level"
+          },
+          {
+            "Name": "Player Info",
+            "Description": "Shows general infomation about the players"
+          },
+          {
+            "Name": "Player Info Separate Windows",
+            "Description": "Shows general infomation about the players with each player getting its own window"
+          },
+          {
+            "Name": "Crosshair",
+            "Description": "Draws a crosshair in the center middle of your screen"
+          },
+          {
+            "Name": "Crosshair Size",
+            "Description": "Controls the crosshair size"
+          },
+          {
+            "Name": "Crosshair Thickness",
+            "Description": "Controls the crosshair thickness"
+          },
+          {
+            "Name": "Teleportation",
+            "Description": "Lets you teleport to specific xyz coords"
+          },
+          {
+            "Name": "Save Current Position",
+            "Description": "Saves your characters current position to the xyz coords"
+          },
+          {
+            "Name": "Teleport",
+            "Description": "Teleports your character to the xyz coords"
+          },
+          {
+            "Name": "Reset Settings",
+            "Description": "Resets your config to the default"
+          },
+          {
+            "Name": "Save Settings",
+            "Description": "Saves all your settings to your config"
+          },
+          {
+            "Name": "Reload Settings",
+            "Description": "Reloads all your settings with your config"
+          },
+          {
+            "Name": "Open Settings",
+            "Description": "Opens the config.json file"
+          },
+          {
+            "Name": "Languages",
+            "Description": "Lets you change the menus language"
+          },
+          {
+            "Name": "Colors",
+            "Description": "Shows all the customizable colors"
+          },
+          {
+            "Name": "Crosshair Color",
+            "Description": "Lets you change the crosshair color"
+          },
+          {
+            "Name": "Project Info",
+            "Description": "Shows some general project infomation"
+          }
+        ],
+        "Changed": [
+
+        ],
+        "Fixed": [
+
+        ],
+        "Removed": [
+
+        ]
+      }
+    }
+  }
+}
