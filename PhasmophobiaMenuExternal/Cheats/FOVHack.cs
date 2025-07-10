@@ -9,9 +9,9 @@ namespace PhasmophobiaMenuExternal.Cheats
             Value = 90f;
         }
 
-        private IntPtr FOVPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05A47EE8, 0xC0, 0xB8, 0x8, 0x20, 0x78, 0x10, 0x180);
+        private IntPtr FOVPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B4E908, 0x3D0, 0x20, 0x60, 0x38, 0x58, 0x10, 0x180);
 
-        public float OriginalFOV = 1f;
+        private float OriginalFOV = 1f;
 
         public override void OnEnable()
         {

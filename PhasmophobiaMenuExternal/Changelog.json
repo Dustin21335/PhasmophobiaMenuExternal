@@ -1,5 +1,31 @@
 ﻿{
   "Changelogs": {
+    "1.0.1": {
+      "Entries": {
+        "Added": [
+
+        ],
+        "Changed": [
+
+        ],
+        "Fixed": [
+          {
+            "Name": "Updated Pointers",
+            "Description": "Updated the menu pointers since the game updated"
+          },
+          {
+            "Name": "Swapped Current Room and Favorite Room",
+            "Description": "Current Room was actually the ghosts favorite room"
+          }
+        ],
+        "Removed": [
+          {
+            "Name": "Removed Ghost Info Favorite Room",
+            "Description": "It was actually just the local players current room"
+          }
+        ]
+      }
+    },
     "1.0.0": {
       "Entries": {
         "Added": [

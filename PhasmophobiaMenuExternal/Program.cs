@@ -134,6 +134,7 @@ namespace PhasmophobiaMenuExternal
                         {
                             UIUtil.Text($"v{versions[i].Key}");
                             versions[i].ToList().ForEach(e => UIUtil.Text($"> {e.Type} {e.Name} - {e.Description}"));
+                            UIUtil.Spacing(1);
                         }
                     });
                     UIUtil.TabItem("SelfTab.Title", () =>
@@ -217,7 +218,6 @@ namespace PhasmophobiaMenuExternal
                 UIUtil.Text("GhostInfo.GhostType", $": {GhostController.GhostTraits.GhostType}");
                 UIUtil.Text("GhostInfo.Evidence", $": {string.Join(", ", GhostController.GhostTraits.Evidences)}");
                 UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostController.LevelController.FavoriteRoom.RoomName}");
-                UIUtil.Text("GhostInfo.CurrentRoom", $": {GhostController.LevelController.CurrentRoom.RoomName}");
                 UIUtil.Text("GhostInfo.GhostState", $": {GhostController.GhostAI.GhostState}");
                 UIUtil.Text("GhostInfo.IsHunting", $": {GhostController.GhostAI.IsHunting}");
             });

@@ -2,7 +2,7 @@
 {
     public static class MapController
     {
-        public static IntPtr MapControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B2E460, 0x48, 0x40, 0x90, 0x40, 0xB8, 0x20, 0x0);
+        public static IntPtr MapControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B09AB8, 0xB8, 0x0, 0x10, 0x120, 0xA8, 0x28, 0x0);
 
         public static GhostAI GhostAI = new GhostAI();
 

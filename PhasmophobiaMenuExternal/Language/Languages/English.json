@@ -45,7 +45,6 @@
   "GhostInfo.GhostType": "Ghost Type",
   "GhostInfo.Evidence": "Evidence",
   "GhostInfo.FavoriteRoom": "Favorite Room",
-  "GhostInfo.CurrentRoom": "Current Room",
   "GhostInfo.GhostState": "Ghost State",
   "GhostInfo.IsHunting": "Is Hunting",
   "LevelInfo.Title": "Level Info",

@@ -2,7 +2,7 @@
 {
     public static class CursedItemsController
     {
-        public static IntPtr CursedItemsControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05CA5BB0, 0x580, 0x10, 0x30, 0xA0, 0x68, 0x60, 0x0);
+        public static IntPtr CursedItemsControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B52158, 0x98, 0xC8, 0x20, 0x78, 0xB8, 0x20, 0x0);
 
         public static CursedItem OuijaBoard => new CursedItem(Program.SimpleMemoryReading.ReadPointer(CursedItemsControllerPointer + 0x20), "Ouija Board");
 
