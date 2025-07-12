@@ -1,13 +1,22 @@
 ﻿{
   "Changelogs": {
+    "1.0.2": {
+      "Entries": {
+        "Added": [],
+        "Changed": [],
+        "Fixed": [
+          {
+            "Name": "Updated Pointers",
+            "Description": "Updated the menu pointers since the game updated"
+          }
+        ],
+        "Removed": []
+      }
+    },
     "1.0.1": {
       "Entries": {
-        "Added": [
-
-        ],
-        "Changed": [
-
-        ],
+        "Added": [],
+        "Changed": [],
         "Fixed": [
           {
             "Name": "Updated Pointers",
@@ -142,15 +151,9 @@
             "Description": "Shows some general project infomation"
           }
         ],
-        "Changed": [
-
-        ],
-        "Fixed": [
-
-        ],
-        "Removed": [
-
-        ]
+        "Changed": [],
+        "Fixed": [],
+        "Removed": []
       }
     }
   }

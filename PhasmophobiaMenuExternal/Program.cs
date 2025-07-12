@@ -63,6 +63,27 @@ namespace PhasmophobiaMenuExternal
             }
         }
 
+        private static IntPtr unityPlayer;
+        public static IntPtr UnityPlayer
+        {
+            get
+            {
+                if (unityPlayer == IntPtr.Zero)
+                {
+                    try
+                    {
+                        unityPlayer = SimpleMemoryReading.GetModuleBase("UnityPlayer.dll");
+                    }
+                    catch { return IntPtr.Zero; }
+                }
+                return unityPlayer;
+            }
+            set
+            {
+                unityPlayer = value;
+            }
+        }
+
 
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
@@ -91,7 +112,7 @@ namespace PhasmophobiaMenuExternal
             Console.WriteLine("Waiting for Phasmophobia to load");
             while (!Loaded)
             {
-                Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero;
+                Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero && UnityPlayer != IntPtr.Zero;
                 await Task.Delay(1000);
             }
             Console.WriteLine("Phasmophobia loaded");

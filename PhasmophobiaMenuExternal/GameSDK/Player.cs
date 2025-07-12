@@ -29,7 +29,9 @@ namespace PhasmophobiaMenuExternal.GameSDK
 
         public FirstPlayerController FirstPlayerController => new FirstPlayerController(Program.SimpleMemoryReading.ReadPointer(PlayerPointer + 0x128));
 
-        private IntPtr PlayerXPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B0CD78, 0x20, 0xB8, 0x48, 0x20, 0x10, 0x38, 0x90);
+        public Camera Camera => new Camera();
+
+        private IntPtr PlayerXPointer => Program.SimpleMemoryReading.ReadPointer(Program.UnityPlayer + 0x01C0AF00, 0x78, 0x20, 0xF40, 0x30, 0x90, 0x70, 0x90);
 
         public float PlayerX
         {

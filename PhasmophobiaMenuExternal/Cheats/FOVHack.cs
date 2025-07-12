@@ -1,4 +1,5 @@
 ﻿using PhasmophobiaMenuExternal.Cheats.Core;
+using PhasmophobiaMenuExternal.GameSDK;
 
 namespace PhasmophobiaMenuExternal.Cheats
 {
@@ -9,24 +10,25 @@ namespace PhasmophobiaMenuExternal.Cheats
             Value = 90f;
         }
 
-        private IntPtr FOVPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05B4E908, 0x3D0, 0x20, 0x60, 0x38, 0x58, 0x10, 0x180);
-
         private float OriginalFOV = 1f;
 
         public override void OnEnable()
         {
-            OriginalFOV = Program.SimpleMemoryReading.ReadFloat(FOVPointer);
+            Player localPlayer = Program.LocalPlayer;
+            OriginalFOV = localPlayer != null ? localPlayer.Camera.FieldOfView : 90f;
         }
 
         public override void OnDisable()
         {
-            if (Program.SimpleMemoryReading.ReadFloat(FOVPointer) != OriginalFOV) Program.SimpleMemoryReading.WriteFloat(FOVPointer, OriginalFOV);
+            Player localPlayer = Program.LocalPlayer;
+            if (localPlayer != null && localPlayer.Camera.FieldOfView != OriginalFOV) localPlayer.Camera.FieldOfView = OriginalFOV;
             OriginalFOV = -1f;
         }
 
         public override Task Update()
         {
-            if (OriginalFOV != -1f && Program.SimpleMemoryReading.ReadFloat(FOVPointer) != Value) Program.SimpleMemoryReading.WriteFloat(FOVPointer, Value);
+            Player localPlayer = Program.LocalPlayer;
+            if (localPlayer != null && OriginalFOV != -1f && localPlayer.Camera.FieldOfView != Value) localPlayer.Camera.FieldOfView = Value;
             return Task.CompletedTask;
         }
     }
