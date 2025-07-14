@@ -203,6 +203,22 @@ namespace PhasmophobiaMenuExternal.Utils
             ImGui.End();
         }
 
+        public static void Area(string label, Action action, Vector2 size, ImGuiCond ImGuiCond = ImGuiCond.Once)
+        {
+            ImGui.SetNextWindowSize(size, ImGuiCond);
+            ImGui.Begin(Localization.Localize(label));
+            action?.Invoke();
+            ImGui.End();
+        }
+
+        public static void Area(string[] label, Action action, Vector2 size, ImGuiCond ImGuiCond = ImGuiCond.Once)
+        {
+            ImGui.SetNextWindowSize(size, ImGuiCond);
+            ImGui.Begin(Localization.Localize(label));
+            action?.Invoke();
+            ImGui.End();
+        }
+
         public static void TabBar(string label, Action action)
         {
             if (ImGui.BeginTabBar(Localization.Localize(label)))

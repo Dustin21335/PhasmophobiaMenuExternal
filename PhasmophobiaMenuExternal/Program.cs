@@ -216,7 +216,7 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.Button("SettingsTab.ImGui.NET", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/ImGuiNET/ImGui.NET", UseShellExecute = true }));
                     });
                 });
-            });
+            }, new Vector2(520, 320));
         }
 
         private void Crosshair()

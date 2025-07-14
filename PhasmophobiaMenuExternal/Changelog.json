@@ -1,5 +1,23 @@
 ﻿{
   "Changelogs": {
+    "1.0.4": {
+      "Entries": {
+        "Added": [ ],
+        "Changed": [
+          {
+            "Name": "Changed Default Window Size",
+            "Description": "ImGUI starts at the size 520, 320 now"
+          }
+        ],
+        "Fixed": [
+          {
+            "Name": "Updated Pointers",
+            "Description": "Updated pointers they weren't working for some people"
+          }
+        ],
+        "Removed": []
+      }
+    },
     "1.0.3": {
       "Entries": {
         "Added": [],

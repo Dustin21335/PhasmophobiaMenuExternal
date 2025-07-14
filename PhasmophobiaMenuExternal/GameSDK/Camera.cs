@@ -2,7 +2,7 @@
 {
     public class Camera
     {
-        private IntPtr FieldOfViewPointer => Program.SimpleMemoryReading.ReadPointer(Program.UnityPlayer + 0x01C0B5C0, 0x0, 0x90, 0x20, 0x220, 0x0, 0x118, 0x180);
+        private IntPtr FieldOfViewPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05BD62C0, 0x20, 0xB8, 0x10, 0x28, 0x58, 0x10, 0x180);
 
         public float FieldOfView
         {
