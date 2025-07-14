@@ -1,5 +1,18 @@
 ﻿{
   "Changelogs": {
+    "1.0.3": {
+      "Entries": {
+        "Added": [],
+        "Changed": [],
+        "Fixed": [
+          {
+            "Name": "Updated Pointers",
+            "Description": "Updated the Ghost Controller and Cursed Items Controller pointers because they went bad"
+          }
+        ],
+        "Removed": []
+      }
+    },
     "1.0.2": {
       "Entries": {
         "Added": [],

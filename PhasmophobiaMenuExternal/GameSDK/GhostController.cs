@@ -2,7 +2,7 @@
 {
     public static class GhostController
     {
-        public static IntPtr GhostControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.UnityPlayer + 0x01C966A8, 0x1E0, 0x30, 0x140, 0x18, 0xC0, 0x60, 0x0);
+        public static IntPtr GhostControllerPointer => Program.SimpleMemoryReading.ReadPointer(Program.GameAssembly + 0x05BDDCF0, 0xA8, 0x20, 0x1B0, 0x40, 0xB8, 0x20, 0x0);
 
         public static GhostTraits GhostTraits => new GhostTraits(GhostControllerPointer + 0x28);
 
