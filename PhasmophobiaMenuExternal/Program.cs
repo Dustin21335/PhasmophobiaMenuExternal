@@ -218,7 +218,7 @@ namespace PhasmophobiaMenuExternal
                 UIUtil.Text("GhostInfo.GhostName", $": {JournalController.GhostName.Text}");
                 UIUtil.Text("GhostInfo.GhostType", $": {GhostController.GhostTraits.GhostType}");
                 UIUtil.Text("GhostInfo.Evidence", $": {string.Join(", ", GhostController.GhostTraits.Evidences)}");
-                UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostController.LevelController.FavoriteRoom.RoomName}");
+                UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostController.LevelController.FavoriteRoom.Name}");
                 UIUtil.Text("GhostInfo.GhostState", $": {GhostController.GhostAI.GhostState}");
                 UIUtil.Text("GhostInfo.IsHunting", $": {GhostController.GhostAI.IsHunting}");
             });
@@ -245,7 +245,7 @@ namespace PhasmophobiaMenuExternal
                 {
                     UIUtil.Text("PlayerInfo.Name", $": {photonPlayer.NickName}");
                     UIUtil.Text("PlayerInfo.ActorNumber", $": {photonPlayer.ActorNumber}");
-                    UIUtil.Text("PlayerInfo.CurrentRoom", $": {p.CurrentRoom.RoomName}");
+                    UIUtil.Text("PlayerInfo.CurrentRoom", $": {p.CurrentRoom.Name}");
                     UIUtil.Text("PlayerInfo.Stamina", $": {p.PlayerStamina.Stamina}");
                     UIUtil.Text("PlayerInfo.Sanity", $": {p.PlayerSanity.Sanity}");
                 });

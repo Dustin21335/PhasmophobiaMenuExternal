@@ -9,7 +9,7 @@
 
         public IntPtr Pointer;
 
-        public string RoomName => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x60)).Value;
+        public string Name => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x60)).Value;
 
         public int TimePlayerBeenInRoom => Program.SimpleMemoryReading.Read<int>(Pointer + 0x74);
 
