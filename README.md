@@ -1,4 +1,4 @@
-# REPOssessed
+# Phasmophobia External
 <sup>A Phasmophobia External Cheat by [Dustin](https://github.com/Dustin21335) | [Discord Server](https://discord.gg/D6wuXEnfhP)</sup>
 
 #### Screenshots
