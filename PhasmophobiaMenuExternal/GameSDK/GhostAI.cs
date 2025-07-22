@@ -2,7 +2,7 @@
 {
     public class GhostAI
     {
-        public IntPtr GhostAIPointer => Program.SimpleMemoryReading.ReadPointer(GhostController.GhostControllerPointer + 0x90);
+        public IntPtr Pointer => Program.SimpleMemoryReading.ReadPointer(GhostController.Pointer, 0x90);
 
         public enum GhostStates
         {
@@ -33,7 +33,7 @@
         }
 
         public GhostInfo GhostInfo => new GhostInfo();
-        public GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.ReadInt(GhostAIPointer + 0x30);
+        public GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Pointer, 0x30);
         public bool IsHunting => GhostState == GhostStates.Hunting;
     }
 }

@@ -4,11 +4,11 @@
     {
         public PlayerStats(IntPtr pointer)
         {
-            PlayerStatsPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PlayerStatsPointer;
+        public IntPtr Pointer;
 
-        public LevelStats LevelStats => new LevelStats(Program.SimpleMemoryReading.ReadPointer(PlayerStatsPointer + 0x40));
+        public LevelStats LevelStats => new LevelStats(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x40));
     }
 }

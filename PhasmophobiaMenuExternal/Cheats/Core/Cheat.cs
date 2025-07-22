@@ -7,6 +7,7 @@
 
         public float Value = -1;
         private bool enabled;
+        public bool coreFeature;
 
         public bool Enabled
         {
@@ -19,12 +20,12 @@
                     if (enabled)
                     {
                         OnEnable();
-                        OnEnableCore();
+                        if (coreFeature) OnEnableCore();
                     }
                     else
                     {
                         OnDisable();
-                        OnDisableCore();
+                        if (coreFeature) OnDisableCore();
                     }
                 }
             }

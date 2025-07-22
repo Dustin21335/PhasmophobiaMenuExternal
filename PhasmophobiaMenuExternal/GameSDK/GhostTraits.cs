@@ -1,6 +1,4 @@
-﻿using PhasmophobiaMenuExternal.Model;
-
-namespace PhasmophobiaMenuExternal.GameSDK
+﻿namespace PhasmophobiaMenuExternal.GameSDK
 {
     public class GhostTraits
     {
@@ -40,8 +38,20 @@ namespace PhasmophobiaMenuExternal.GameSDK
             None = 24
         }
 
-        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.ReadInt(GhostTraitsPointer + 0x0);
+        public enum Evidence
+        {
+            None = 0,
+            EMF = 1,
+            SpiritBox = 2,
+            UltraViolet = 3,
+            GhostOrb = 4,
+            GhostWritingBook = 5,
+            Temperature = 6,
+            DotsProjector = 7
+        }
 
-        public List<Evidence> Evidences => new mList(Program.SimpleMemoryReading.ReadPointer(GhostTraitsPointer + 0x8)).GetEntries(4).Select(e => (Evidence)Program.SimpleMemoryReading.ReadInt(e)).ToList();
+        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(GhostTraitsPointer + 0x0);
+
+        public List<Evidence> Evidences => new mList(Program.SimpleMemoryReading.ReadPointer(GhostTraitsPointer + 0x8)).GetEntries(4).Select(e => (Evidence)Program.SimpleMemoryReading.Read<int>(e)).ToList();
     }
 }

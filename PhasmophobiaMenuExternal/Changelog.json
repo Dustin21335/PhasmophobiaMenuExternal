@@ -1,17 +1,45 @@
 ﻿{
   "Changelogs": {
-    "1.0.4": {
+    "1.0.5": {
       "Entries": {
-        "Added": [ ],
+        "Added": [
+          {
+            "Name": "AOB Scanning",
+            "Description": "Uses patterns to reliably get addresses even after game updates"
+          },
+          {
+            "Name": "GodMode",
+            "Description": "Returns the kill methods if its not the localplayer ( might prevent other players from not dying I'm not too sure lmk if it does )"
+          }
+        ],
         "Changed": [
           {
-            "Name": "Changed Default Window Size",
+            "Name": "All reading and writing methods",
+            "Description": "Updated to use my newest memory library"
+          }
+        ],
+        "Fixed": [
+        ],
+        "Removed": [
+          {
+            "Name": "Pointers",
+            "Description": "No longer using pointers only AOB scanning"
+          }
+        ]
+      }
+    },
+    "1.0.4": {
+      "Entries": {
+        "Added": [],
+        "Changed": [
+          {
+            "Name": "Default Window Size",
             "Description": "ImGUI starts at the size 520, 320 now"
           }
         ],
         "Fixed": [
           {
-            "Name": "Updated Pointers",
+            "Name": "Pointers",
             "Description": "Updated pointers they weren't working for some people"
           }
         ],
@@ -24,7 +52,7 @@
         "Changed": [],
         "Fixed": [
           {
-            "Name": "Updated Pointers",
+            "Name": "Pointers",
             "Description": "Updated the Ghost Controller and Cursed Items Controller pointers because they went bad"
           }
         ],
@@ -37,7 +65,7 @@
         "Changed": [],
         "Fixed": [
           {
-            "Name": "Updated Pointers",
+            "Name": "Pointers",
             "Description": "Updated the menu pointers since the game updated"
           }
         ],
@@ -50,7 +78,7 @@
         "Changed": [],
         "Fixed": [
           {
-            "Name": "Updated Pointers",
+            "Name": " Pointers",
             "Description": "Updated the menu pointers since the game updated"
           },
           {

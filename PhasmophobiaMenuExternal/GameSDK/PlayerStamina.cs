@@ -4,15 +4,15 @@
     {
         public PlayerStamina(IntPtr pointer)
         {
-            PlayerStaminaPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PlayerStaminaPointer;
+        public IntPtr Pointer;
 
         public float Stamina
         {
-            get => (Program.SimpleMemoryReading.ReadFloat(PlayerStaminaPointer + 0x50) / 3f) * 100f;
-            set => Program.SimpleMemoryReading.WriteFloat(PlayerStaminaPointer + 0x50, (value / 100f) * 3f);
+            get => (Program.SimpleMemoryReading.Read<float>(Pointer + 0x50) / 3f) * 100f;
+            set => Program.SimpleMemoryReading.Write<float>(Pointer + 0x50, (value / 100f) * 3f);
         }
     }
 }

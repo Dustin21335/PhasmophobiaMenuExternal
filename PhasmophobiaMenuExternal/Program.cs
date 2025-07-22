@@ -63,28 +63,6 @@ namespace PhasmophobiaMenuExternal
             }
         }
 
-        private static IntPtr unityPlayer;
-        public static IntPtr UnityPlayer
-        {
-            get
-            {
-                if (unityPlayer == IntPtr.Zero)
-                {
-                    try
-                    {
-                        unityPlayer = SimpleMemoryReading.GetModuleBase("UnityPlayer.dll");
-                    }
-                    catch { return IntPtr.Zero; }
-                }
-                return unityPlayer;
-            }
-            set
-            {
-                unityPlayer = value;
-            }
-        }
-
-
         [StructLayout(LayoutKind.Sequential)]
         public struct RECT
         {
@@ -112,7 +90,7 @@ namespace PhasmophobiaMenuExternal
             Console.WriteLine("Waiting for Phasmophobia to load");
             while (!Loaded)
             {
-                Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero && UnityPlayer != IntPtr.Zero;
+                Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero;
                 await Task.Delay(1000);
             }
             Console.WriteLine("Phasmophobia loaded");
@@ -160,6 +138,7 @@ namespace PhasmophobiaMenuExternal
                     });
                     UIUtil.TabItem("SelfTab.Title", () =>
                     {
+                        UIUtil.Checkbox("SelfTab.GodMode", Cheat.Instance<GodMode>());
                         UIUtil.SliderCheckbox("SelfTab.InfiniteSanity", Cheat.Instance<InfiniteSanity>(), 1, 5000);
                         UIUtil.SliderCheckbox("SelfTab.InfiniteStamina", Cheat.Instance<InfiniteStamina>(), 1, 5000);
                         UIUtil.SliderCheckbox("SelfTab.SpeedHack", Cheat.Instance<SpeedHack>(), 1, 5000);
@@ -167,7 +146,7 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.SliderCheckbox("SelfTab.GammaHack", Cheat.Instance<GammaHack>(), 500, 5000);
                         UIUtil.Slider("SelfTab.Gamma", Cheat.Instance<GammaHack>(), 1f, 4f);
                         UIUtil.SliderCheckbox("SelfTab.FOVHack", Cheat.Instance<FOVHack>(), 1, 5000);
-                        UIUtil.Slider("SelfTab.FOV", Cheat.Instance<FOVHack>(), 10, 150);
+                        UIUtil.Slider("SelfTab.FOV", Cheat.Instance<FOVHack>(), 10, 180);
                     });
                     UIUtil.TabItem("MiscTab.Title", () =>
                     {
@@ -204,6 +183,7 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.SameLine();
                         UIUtil.Button("SettingsTab.OpenSettings", Settings.Config.OpenConfig);
                         UIUtil.DropDown("SettingsTab.Languages", ref Language, Localization.GetLanguages());
+                        UIUtil.Button("SettingsTab.UpdateOffsets", () => Offsets.UpdateOffsets());
                         UIUtil.Text("SettingsTab.Colors");
                         UIUtil.ColorPicker("SettingsTab.CrosshairColor", ref Settings.CrosshairColor);
                         UIUtil.Text("SettingsTab.ProjectInfo");
@@ -250,7 +230,7 @@ namespace PhasmophobiaMenuExternal
             UIUtil.Area("LevelInfo.Title", () =>
             {
                 UIUtil.Text("LevelInfo.BoneLocation", $": {(LocalPlayer != null ? LocalPlayer.PlayerStats.LevelStats.BoneRoom : "Unknown")}");
-                UIUtil.Text("LevelInfo.CursedItem", $": {(CursedItemsController.CurrentCursedItem != null ? CursedItemsController.CurrentCursedItem.CursedItemName : "Unknown")}");
+                UIUtil.Text("LevelInfo.CursedItem", $": {(CursedItemsController.CurrentCursedItem != null ? CursedItemsController.CurrentCursedItem.Name : "Unknown")}");
             });
         }
 

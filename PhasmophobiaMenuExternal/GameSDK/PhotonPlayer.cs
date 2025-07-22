@@ -4,16 +4,16 @@
     {
         public PhotonPlayer(IntPtr pointer)
         {
-            PhotonPlayerPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PhotonPlayerPointer;
+        public IntPtr Pointer;
 
-        public int ActorNumber => Program.SimpleMemoryReading.ReadInt(PhotonPlayerPointer + 0x18);
+        public int ActorNumber => Program.SimpleMemoryReading.Read<int>(Pointer + 0x18);
 
-        public bool IsLocal => Program.SimpleMemoryReading.ReadBool(PhotonPlayerPointer + 0x01c);
+        public bool IsLocal => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x01c);
 
-        public string NickName => new mString(Program.SimpleMemoryReading.ReadPointer(PhotonPlayerPointer + 0x20)).Value;
+        public string NickName => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x20)).Value;
 
         public bool IsMasterClient => ActorNumber == 1;
     }

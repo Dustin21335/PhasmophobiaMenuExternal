@@ -2,7 +2,7 @@
 {
     public class GhostInfo
     {
-        public IntPtr GhostInfoPointer => Program.SimpleMemoryReading.ReadPointer(GhostController.GhostAI.GhostAIPointer + 0x38);
+        public IntPtr GhostInfoPointer => Program.SimpleMemoryReading.ReadPointer(GhostController.GhostAI.Pointer + 0x38);
 
         public GhostTraits GhostTraits => new GhostTraits(GhostInfoPointer + 0x28);
 

@@ -11,7 +11,7 @@ namespace PhasmophobiaMenuExternal.GameSDK
 
         public IntPtr Pointer;
 
-        public int Length => Program.SimpleMemoryReading.ReadInt(Pointer + 0x10);
+        public int Length => Program.SimpleMemoryReading.Read<int>(Pointer + 0x10);
 
         public string Value => Program.SimpleMemoryReading.ReadString(Pointer + 0x14, Length * 2, Encoding.Unicode);
     }

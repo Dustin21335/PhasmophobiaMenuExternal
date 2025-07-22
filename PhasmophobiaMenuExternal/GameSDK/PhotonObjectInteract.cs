@@ -4,13 +4,11 @@
     {
         public PhotonObjectInteract(nint pointer)
         {
-            PhotonObjectInteractPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PhotonObjectInteractPointer;
+        public IntPtr Pointer;
 
-        public PhotonView PhotonView => new PhotonView(Program.SimpleMemoryReading.ReadPointer(PhotonObjectInteractPointer + 0x20));
-
-        public PhotonTransformView PhotonTransformView => new PhotonTransformView(Program.SimpleMemoryReading.ReadPointer(PhotonObjectInteractPointer + 0x28));
+        public PhotonView PhotonView => new PhotonView(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x20));
     }
 }

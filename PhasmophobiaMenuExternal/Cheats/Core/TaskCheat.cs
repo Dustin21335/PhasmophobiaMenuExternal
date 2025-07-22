@@ -2,6 +2,11 @@
 {
     public abstract class TaskCheat : Cheat
     {
+        public TaskCheat()
+        {
+            coreFeature = true;
+        }
+
         private CancellationTokenSource cancellationTokenSource;
         private Task task;
         public int Delay = 500;

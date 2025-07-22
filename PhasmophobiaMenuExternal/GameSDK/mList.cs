@@ -11,7 +11,7 @@
 
         public IntPtr Items => Program.SimpleMemoryReading.ReadPointer(Pointer + 0x10);
 
-        public int Count => Program.SimpleMemoryReading.ReadInt(Pointer + 0x18);
+        public int Count => Program.SimpleMemoryReading.Read<int>(Pointer + 0x18);
 
         public List<IntPtr> GetEntries(int size)
         {

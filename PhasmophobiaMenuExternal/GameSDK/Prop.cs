@@ -4,11 +4,11 @@
     {
         public Prop(IntPtr pointer)
         {
-            PropPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PropPointer;
+        public IntPtr Pointer;
 
-        public PhotonObjectInteract PhotonObjectInteract => new PhotonObjectInteract(Program.SimpleMemoryReading.ReadPointer(PropPointer + 0x20));
+        public PhotonObjectInteract PhotonObjectInteract => new PhotonObjectInteract(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x20));
     }
 }

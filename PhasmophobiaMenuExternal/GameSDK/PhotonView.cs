@@ -4,12 +4,12 @@
     {
         public PhotonView(IntPtr pointer)
         {
-            PhotonViewPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr PhotonViewPointer;
+        public IntPtr Pointer;
 
-        public bool IsMine => Program.SimpleMemoryReading.ReadBool(PhotonViewPointer + 0x68);
-        public PhotonPlayer Owner => new PhotonPlayer(Program.SimpleMemoryReading.ReadPointer(PhotonViewPointer + 0x80));
+        public bool IsMine => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x68);
+        public PhotonPlayer Owner => new PhotonPlayer(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x80));
     }
 }

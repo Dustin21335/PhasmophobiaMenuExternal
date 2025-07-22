@@ -4,11 +4,11 @@
     {
         public TextMeshProUGUI(IntPtr pointer)
         {
-            TextMeshProUGUIPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr TextMeshProUGUIPointer;
+        public IntPtr Pointer;
 
-        public string Text => new mString(Program.SimpleMemoryReading.ReadPointer(TextMeshProUGUIPointer + 0xE0)).Value;
+        public string Text => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0xE0)).Value;
     }
 }

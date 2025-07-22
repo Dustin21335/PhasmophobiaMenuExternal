@@ -4,14 +4,14 @@
     {
         public CursedItem(IntPtr pointer, string name)
         {
-            CursedItemPointer = pointer;
-            CursedItemName = name;    
+            Pointer = pointer;
+            Name = name;    
         }
 
-        public IntPtr CursedItemPointer;
+        public IntPtr Pointer;
 
-        public string CursedItemName;
+        public string Name;
 
-        public Equipment Equipment => new Equipment(CursedItemPointer);
+        public Equipment Equipment => new Equipment(Pointer);
     }
 }

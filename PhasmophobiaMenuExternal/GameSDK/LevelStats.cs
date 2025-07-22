@@ -4,11 +4,11 @@
     {
         public LevelStats(IntPtr pointer)
         {
-            LevelStatsPointer = pointer;
+            Pointer = pointer;
         }
 
-        public IntPtr LevelStatsPointer;
+        public IntPtr Pointer;
 
-        public string BoneRoom => new mString(Program.SimpleMemoryReading.ReadPointer(LevelStatsPointer + 0xB8)).Value;
+        public string BoneRoom => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0xB8)).Value;
     }
 }
