@@ -15,6 +15,7 @@
   - **Change Log:** Shows everything added, changed, fixed, or removed
 
   #### Self Tab 
+  - **God Mode:** Prevents you from dying.
   - **Infinite Sanity:** Sets your sanity to 100 making it infinite.
   - **Infinite Stamina:** Sets your stamina to 100 making it infinite.
   - **Speed Hack:** Global speed hack toggle
@@ -42,6 +43,7 @@
   - **Reload Settings:** Reloads all your settings with your config
   - **Open Settings:** Opens the config.json file
   - **Languages:** Lets you change the menus language
+  - **Update Offsets:** Updates the menus offsets using AOB scanning
   - **Colors:** Shows all the customizable colors
   - **Crosshair Color:** Lets you change the crosshair color
   - **Project Info:** Shows some general project infomation 
