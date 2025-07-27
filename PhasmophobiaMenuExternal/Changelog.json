@@ -1,5 +1,24 @@
 ﻿{
   "Changelogs": {
+    "1.0.6": {
+      "Entries": {
+        "Added": [
+
+        ],
+        "Changed": [
+
+        ],
+        "Fixed": [
+          {
+            "Name": "Patterns",
+            "Description": "Updated pattern they weren't the greatest and stopped working"
+          }
+        ],
+        "Removed": [
+
+        ]
+      }
+    },
     "1.0.5": {
       "Entries": {
         "Added": [
