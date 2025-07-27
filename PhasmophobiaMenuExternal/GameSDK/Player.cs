@@ -4,9 +4,9 @@ namespace PhasmophobiaMenuExternal.GameSDK
 {
     public class Player
     {
-        public Player(IntPtr playerPointer)
+        public Player(IntPtr pointer)
         {
-            Pointer = playerPointer;
+            Pointer = pointer;
         }
 
         public IntPtr Pointer;

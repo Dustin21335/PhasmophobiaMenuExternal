@@ -30,7 +30,7 @@ namespace PhasmophobiaMenuExternal
                 {
                     try
                     {
-                        simpleMemoryReading = new SimpleMemoryReading("Phasmophobia");
+                        simpleMemoryReading = new SimpleMemoryReading("Phasmophobia.exe");
                     }
                     catch { return null; }
                 }
@@ -94,15 +94,16 @@ namespace PhasmophobiaMenuExternal
                 await Task.Delay(1000);
             }
             Console.WriteLine("Phasmophobia loaded");
-            SimpleMemoryReading.process.EnableRaisingEvents = true;
-            SimpleMemoryReading.process.Exited += (sender, e) => Environment.Exit(0);
+            SimpleMemoryReading.Process.EnableRaisingEvents = true;
+            SimpleMemoryReading.Process.Exited += (sender, e) => Environment.Exit(0);
             AppDomain.CurrentDomain.ProcessExit += (sender, e) => Cheat.instances.ToList().ForEach(c => c.OnApplicationQuit());
-            if (GetWindowRect(SimpleMemoryReading.process.MainWindowHandle, out RECT rect)) ScreenSize = new Vector2(rect.Right - rect.Left, rect.Bottom - rect.Top);
+            if (GetWindowRect(SimpleMemoryReading.Process.MainWindowHandle, out RECT rect)) ScreenSize = new Vector2(rect.Right - rect.Left, rect.Bottom - rect.Top);
             Localization.Initialize();
             Assembly.GetExecutingAssembly()?.GetTypes()?.Where(t => !string.IsNullOrEmpty(t.Namespace) && !t.Namespace.Contains("Core") && t.IsSubclassOf(typeof(Cheat))).ToList().ForEach(t => Activator.CreateInstance(t));
             Settings.Config.SaveDefaultConfig();
             Settings.Config.LoadConfig();
             Settings.Changelog.ReadChanges();
+            Offsets.UpdateOffsets();
             renderThread.Start();
             await Task.Delay(-1);
         }

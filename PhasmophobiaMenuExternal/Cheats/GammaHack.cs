@@ -29,7 +29,7 @@ namespace PhasmophobiaMenuExternal.Cheats
         {
             if (OriginalGamma != -1f)
             {
-                if (!IsProcessFocused(Program.SimpleMemoryReading.process) && !IsProcessFocused(Process.GetCurrentProcess())) SetGamma(OriginalGamma);
+                if (!IsProcessFocused(Program.SimpleMemoryReading.Process) && !IsProcessFocused(Process.GetCurrentProcess())) SetGamma(OriginalGamma);
                 else if (GetGamma() != Value) SetGamma(Value);
             }
             return Task.CompletedTask;
