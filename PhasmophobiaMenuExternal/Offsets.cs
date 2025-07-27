@@ -11,20 +11,24 @@ namespace PhasmophobiaMenuExternal
         public static IntPtr CursedItemsController;
         public static IntPtr FOV;
         public static IntPtr PlayerX;
-
-        public static string GhostControllerPattern = "E0 57 09 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? ?? ?? ?? 02 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? 00 00 ?? 00 00 00";
-        public static string MapControllerPattern = "B0 EF F7 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 ?? ?? ?? ?? ?? 02 00 00 ?? ?? ?? ?? ?? 02 00 00 01 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 ?? ?? ?? ?? ?? 02 00 00 01 00 00 00 00 00 00 00 00 00 00 00";
-        public static string CursedItemsControllerPattern = "A0 08 60 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? 02 00 00 ?? ?? ?? ??";
+        
+        public static string GhostControllerPattern = "E0 57 09 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? 00 00 ?? 00 00 00";
+        public static string MapControllerPattern = "B0 EF F7 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 01 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 01 00 00 00 00 00 00 00 00 00 00 00";
+        public static string CursedItemsControllerPattern = "A0 08 60 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ??";
         public static string FOVPattern = "00 00 B4 42 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00";
-        public static string PlayerXPattern = "?? ?? ?? 41 ?? ?? ?? 3F ?? ?? ?? 40 00 00 00 00 00 00 00 00 ?? ?? ?? ?? 00 00 00 00 ?? ?? ?? 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 66 66 46 3F 00 00 00 00 00 00 00 00 00 00 00 80 00 00 00 80 00 00 00 80 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00";
+        public static string PlayerXPattern = "?? ?? ?? 41 ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 ?? ?? ?? ?? 00 00 00 00 ?? ?? ?? 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 66 66 46 3F 00 00 00 00 00 00 00 00 00 00 00 80 00 00 00 80 00 00 00 80 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00";
 
 
         public static IntPtr KillPlayer => Program.GameAssembly + 0xB1D860;
         public static IntPtr StartKillingPlayer => Program.GameAssembly + 0xB1DEE0;
         public static IntPtr StartKillingPlayerNetworked => Program.GameAssembly + 0xB1DE30;
 
+        private static bool Scanning = false;
+
         public static void UpdateOffsets()
         {
+            if (Scanning) return;
+            Scanning = true;
             Thread updateThread = new Thread(() =>
             {
                 Console.WriteLine("Started AOB scanning");
@@ -39,7 +43,10 @@ namespace PhasmophobiaMenuExternal
                     int v6 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf0);
                     int v7 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf4);
                     int v8 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf8);
-                    return (v1 == 0 || v1 == 1) && (v2 == 0 || v2 == 1) && v3 >= 0 && v3 < 1000 && v4 >= 0 && v4 < 1000 && levelController != IntPtr.Zero && (v5 == 0 || v5 == 1) && v6 >= 0 && v6 < 1000 && v7 >= 0 && v7 < 1000 && v8 >= 0 && v8 < 1000;
+                    IntPtr photonView = Program.SimpleMemoryReading.ReadPointer(a + 0x20);
+                    int v9 = Program.SimpleMemoryReading.Read<int>(photonView + 0x7C);
+                    int v10 = Program.SimpleMemoryReading.Read<int>(photonView + 0x68);
+                    return (v1 == 0 || v1 == 1) && (v2 == 0 || v2 == 1) && v3 >= 0 && v3 < 1000 && v4 >= 0 && v4 < 1000 && levelController != IntPtr.Zero && (v5 == 0 || v5 == 1) && v6 >= 0 && v6 < 1000 && v7 >= 0 && v7 < 1000 && v8 >= 0 && v8 < 1000 && photonView != IntPtr.Zero && (v9 == 0 || v9 == 1) && (v10 == 0 || v10 == 1);
                 }).FirstOrDefault();
                 Console.WriteLine($"AOB Scanned Ghost Controller Address {GhostController.ToString("X")}");
 
@@ -94,6 +101,7 @@ namespace PhasmophobiaMenuExternal
                     Cheat.Instance<GodMode>().OnDisable();
                     Cheat.Instance<GodMode>().OnEnable();
                 }
+                Scanning = false;
             });
             updateThread.IsBackground = true;
             updateThread.Priority = ThreadPriority.Highest;

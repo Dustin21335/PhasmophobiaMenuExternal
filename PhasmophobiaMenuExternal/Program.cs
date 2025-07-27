@@ -36,10 +36,6 @@ namespace PhasmophobiaMenuExternal
                 }
                 return simpleMemoryReading;
             }
-            set
-            {
-                simpleMemoryReading = value;
-            }
         }
 
         private static IntPtr gameAssembly;
@@ -56,10 +52,6 @@ namespace PhasmophobiaMenuExternal
                     catch { return IntPtr.Zero; }
                 }
                 return gameAssembly;
-            }
-            set
-            {
-                gameAssembly = value;
             }
         }
 
@@ -159,9 +151,9 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.Slider("MiscTab.CrosshairSize", ref Settings.CrosshairSize, 1, 50);
                         UIUtil.Slider("MiscTab.CrosshairThickness", ref Settings.CrosshairThickness, 1, 25);
                         UIUtil.Text("MiscTab.Teleportion");
-                        UIUtil.InputText("MiscTab.X", ref posX, 3);
-                        UIUtil.InputText("MiscTab.Y", ref posY, 3);
-                        UIUtil.InputText("MiscTab.Z", ref posZ, 3);
+                        UIUtil.InputText("MiscTab.X", ref posX, 5);
+                        UIUtil.InputText("MiscTab.Y", ref posY, 5);
+                        UIUtil.InputText("MiscTab.Z", ref posZ, 5);
                         UIUtil.Button("MiscTab.SaveCurrentPosition", () =>
                         {
                             if (LocalPlayer == null) return;

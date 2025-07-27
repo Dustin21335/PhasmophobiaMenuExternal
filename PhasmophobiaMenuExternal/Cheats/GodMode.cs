@@ -5,7 +5,7 @@ namespace PhasmophobiaMenuExternal.Cheats
 {
     public class GodMode : Cheat
     {
-        private Dictionary<string, IntPtr> KillPlayerMethods = new Dictionary<string, IntPtr>
+        private Dictionary<string, IntPtr> KillPlayerMethods => new Dictionary<string, IntPtr>
         {
             ["KillPlayer"] = Offsets.KillPlayer,
             ["StartKillingPlayer"] = Offsets.StartKillingPlayer,

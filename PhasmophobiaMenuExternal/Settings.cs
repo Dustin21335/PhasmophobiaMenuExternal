@@ -12,7 +12,7 @@ namespace PhasmophobiaMenuExternal
     {
         // Menu Settings
 
-        public static string Version = "v1.0.5";
+        public static string Version = "v1.0.6";
         public static bool FirstLaunch = true;
 
         // Hack Settings
@@ -34,7 +34,6 @@ namespace PhasmophobiaMenuExternal
 
         public class Config
         {
-            private static Dictionary<Type, object> CheatInstances = new Dictionary<Type, object>();
             public static string config = "PhasmophobiaMenuExternal.config.json";
             public static string defaultConf = "PhasmophobiaMenuExternal.default.config.json";
 
