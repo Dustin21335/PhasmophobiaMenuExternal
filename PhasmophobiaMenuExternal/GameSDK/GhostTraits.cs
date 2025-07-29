@@ -2,12 +2,21 @@
 {
     public class GhostTraits
     {
-        public GhostTraits(IntPtr pointer)
-        {
-            GhostTraitsPointer = pointer;
-        }
+        public IntPtr Pointer => GhostAI.GhostInfo.Pointer + 0x28;
 
-        public IntPtr GhostTraitsPointer;
+        public int Age => Program.SimpleMemoryReading.Read<int>(Pointer + 0x18);
+
+        public bool IsMale => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x1C);
+
+        public bool IsShy => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x30);
+
+        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Pointer + 0x0);
+
+        public GhostTypes MimicGhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Pointer + 0x4);
+
+        public List<Evidences> AllPossibleEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x8)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
+
+        public List<Evidences> AllEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x10)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
 
         public enum GhostTypes
         {
@@ -38,7 +47,7 @@
             None = 24
         }
 
-        public enum Evidence
+        public enum Evidences
         {
             None = 0,
             EMF = 1,
@@ -49,9 +58,5 @@
             Temperature = 6,
             DotsProjector = 7
         }
-
-        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(GhostTraitsPointer + 0x0);
-
-        public List<Evidence> Evidences => new mList(Program.SimpleMemoryReading.ReadPointer(GhostTraitsPointer + 0x8)).GetEntries(4).Select(e => (Evidence)Program.SimpleMemoryReading.Read<int>(e)).ToList();
     }
 }

@@ -36,6 +36,7 @@ namespace PhasmophobiaMenuExternal
                 }
                 return simpleMemoryReading;
             }
+            set => simpleMemoryReading = value;
         }
 
         private static IntPtr gameAssembly;
@@ -77,11 +78,12 @@ namespace PhasmophobiaMenuExternal
         private static string posY = "0";
         private static string posZ = "0";
 
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             Console.WriteLine("Waiting for Phasmophobia to load");
             while (!Loaded)
             {
+                SimpleMemoryReading = null;
                 Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero;
                 await Task.Delay(1000);
             }
@@ -91,15 +93,15 @@ namespace PhasmophobiaMenuExternal
             AppDomain.CurrentDomain.ProcessExit += (sender, e) => Cheat.instances.ToList().ForEach(c => c.OnApplicationQuit());
             if (GetWindowRect(SimpleMemoryReading.Process.MainWindowHandle, out RECT rect)) ScreenSize = new Vector2(rect.Right - rect.Left, rect.Bottom - rect.Top);
             Localization.Initialize();
+            Hooks.Initialize();
+            Offsets.Initialize();
             Assembly.GetExecutingAssembly()?.GetTypes()?.Where(t => !string.IsNullOrEmpty(t.Namespace) && !t.Namespace.Contains("Core") && t.IsSubclassOf(typeof(Cheat))).ToList().ForEach(t => Activator.CreateInstance(t));
             Settings.Config.SaveDefaultConfig();
             Settings.Config.LoadConfig();
             Settings.Changelog.ReadChanges();
-            Offsets.UpdateOffsets();
             renderThread.Start();
             await Task.Delay(-1);
         }
-
 
         protected override void Render()
         {
@@ -131,7 +133,6 @@ namespace PhasmophobiaMenuExternal
                     });
                     UIUtil.TabItem("SelfTab.Title", () =>
                     {
-                        UIUtil.Checkbox("SelfTab.GodMode", Cheat.Instance<GodMode>());
                         UIUtil.SliderCheckbox("SelfTab.InfiniteSanity", Cheat.Instance<InfiniteSanity>(), 1, 5000);
                         UIUtil.SliderCheckbox("SelfTab.InfiniteStamina", Cheat.Instance<InfiniteStamina>(), 1, 5000);
                         UIUtil.SliderCheckbox("SelfTab.SpeedHack", Cheat.Instance<SpeedHack>(), 1, 5000);
@@ -156,15 +157,15 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.InputText("MiscTab.Z", ref posZ, 5);
                         UIUtil.Button("MiscTab.SaveCurrentPosition", () =>
                         {
-                            if (LocalPlayer == null) return;
-                            posX = LocalPlayer.PlayerX.ToString();
-                            posY = LocalPlayer.PlayerY.ToString();
-                            posZ = LocalPlayer.PlayerZ.ToString();
+                            Vector3 position = LocalPlayer?.LocalPlayerPosition ?? Vector3.Zero;
+                            posX = position.X.ToString();
+                            posY = position.Y.ToString();
+                            posZ = position.Z.ToString();
                         });
                         UIUtil.SameLine();
                         UIUtil.Button("MiscTab.Teleport", () =>
                         {
-                            if (float.TryParse(posX, out float x) && float.TryParse(posY, out float y) && float.TryParse(posZ, out float z) && LocalPlayer != null) LocalPlayer.PlayerPosition = new Vector3(x, y, z);
+                            if (float.TryParse(posX, out float x) && float.TryParse(posY, out float y) && float.TryParse(posZ, out float z) && LocalPlayer != null) LocalPlayer.LocalPlayerPosition = new Vector3(x, y, z);
                         });
                     });
                     UIUtil.TabItem("SettingsTab.Title", () =>
@@ -176,7 +177,6 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.SameLine();
                         UIUtil.Button("SettingsTab.OpenSettings", Settings.Config.OpenConfig);
                         UIUtil.DropDown("SettingsTab.Languages", ref Language, Localization.GetLanguages());
-                        UIUtil.Button("SettingsTab.UpdateOffsets", () => Offsets.UpdateOffsets());
                         UIUtil.Text("SettingsTab.Colors");
                         UIUtil.ColorPicker("SettingsTab.CrosshairColor", ref Settings.CrosshairColor);
                         UIUtil.Text("SettingsTab.ProjectInfo");
@@ -185,8 +185,9 @@ namespace PhasmophobiaMenuExternal
                         UIUtil.SameLine();
                         UIUtil.Button("SettingsTab.BuyMeACoffee", () => Process.Start(new ProcessStartInfo { FileName = "https://buymeacoffee.com/_dustin_", UseShellExecute = true }));           
                         UIUtil.Text("SettingsTab.Credits");
-                        UIUtil.Button("SettingsTab.ClickableTransparentOverlay", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/zaafar/ClickableTransparentOverlay", UseShellExecute = true }));
-                        UIUtil.Button("SettingsTab.ImGui.NET", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/ImGuiNET/ImGui.NET", UseShellExecute = true }));
+                        UIUtil.Button("Clickable Transparent Overlay", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/zaafar/ClickableTransparentOverlay", UseShellExecute = true }));
+                        UIUtil.Button("ImGui.NET", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/ImGuiNET/ImGui.NET", UseShellExecute = true }));
+                        UIUtil.Button("Frida CLR", () => Process.Start(new ProcessStartInfo { FileName = "https://github.com/frida/frida-clr", UseShellExecute = true }));
                     });
                 });
             }, new Vector2(520, 320));
@@ -206,14 +207,23 @@ namespace PhasmophobiaMenuExternal
         public void GhostInfo()
         {
             if (!Settings.GhostInfo) return;
+            Vector3 position = GhostAI.GhostModel.Position;
             UIUtil.Area("GhostInfo.Title", () =>
             {
                 UIUtil.Text("GhostInfo.GhostName", $": {JournalController.GhostName.Text}");
-                UIUtil.Text("GhostInfo.GhostType", $": {GhostController.GhostTraits.GhostType}");
-                UIUtil.Text("GhostInfo.Evidence", $": {string.Join(", ", GhostController.GhostTraits.Evidences)}");
-                UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostController.LevelController.FavoriteRoom.Name}");
-                UIUtil.Text("GhostInfo.GhostState", $": {GhostController.GhostAI.GhostState}");
-                UIUtil.Text("GhostInfo.IsHunting", $": {GhostController.GhostAI.IsHunting}");
+                UIUtil.Text("GhostInfo.Age", $": {GhostAI.GhostInfo.GhostTraits.Age}");
+                UIUtil.Text("GhostInfo.GhostType", $": {GhostAI.GhostInfo.GhostTraits.GhostType}");
+                if (GhostAI.GhostInfo.GhostTraits.GhostType == GhostTraits.GhostTypes.Banshee) UIUtil.Text("GhostInfo.BansheeTarget", $": {GhostAI.BansheeTarget.PhotonView.Owner.NickName}");
+                else if (GhostAI.GhostInfo.GhostTraits.GhostType == GhostTraits.GhostTypes.Mimic) UIUtil.Text("GhostInfo.MimicGhostType", $": {GhostAI.GhostInfo.GhostTraits.MimicGhostType}");
+                UIUtil.Text("GhostInfo.AllPossibleEvidence", $": {string.Join(", ", GhostAI.GhostInfo.GhostTraits.AllPossibleEvidence)}");
+                UIUtil.Text("GhostInfo.AllEvidence", $": {string.Join(", ", GhostAI.GhostInfo.GhostTraits.AllEvidence)}");
+                UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostAI.GhostInfo.FavoriteRoom.Name}");
+                UIUtil.Text("GhostInfo.GhostState", $": {GhostAI.GhostState}");
+                UIUtil.Text("GhostInfo.IsMale", $": {GhostAI.GhostInfo.GhostTraits.IsMale}");
+                UIUtil.Text("GhostInfo.IsShy", $": {GhostAI.GhostInfo.GhostTraits.IsShy}");
+                UIUtil.Text("GhostInfo.IsHunting", $": {GhostAI.IsHunting}");
+                UIUtil.Text("GhostInfo.Position", $": {position.X.ToString("F1")}, {position.Y.ToString("F1")}, {position.Z.ToString("F1")}");
+                UIUtil.Button("GhostInfo.TeleportToGhost", () => LocalPlayer.LocalPlayerPosition = (position + new Vector3(0, 1, 0)));
             });
         }
 
@@ -234,6 +244,7 @@ namespace PhasmophobiaMenuExternal
             {
                 PhotonPlayer photonPlayer = p.PhotonView.Owner;
                 if (!photonPlayer.IsMasterClient) UIUtil.SameLine();
+                Vector3 position = p.PhysicsCharacterController.Position;
                 UIUtil.Group($"{photonPlayer.NickName} {photonPlayer.ActorNumber}", () =>
                 {
                     UIUtil.Text("PlayerInfo.Name", $": {photonPlayer.NickName}");
@@ -241,6 +252,8 @@ namespace PhasmophobiaMenuExternal
                     UIUtil.Text("PlayerInfo.CurrentRoom", $": {p.CurrentRoom.Name}");
                     UIUtil.Text("PlayerInfo.Stamina", $": {p.PlayerStamina.Stamina}");
                     UIUtil.Text("PlayerInfo.Sanity", $": {p.PlayerSanity.Sanity}");
+                    UIUtil.Text("PlayerInfo.Position", $": {position.X.ToString("F1")}, {position.Y.ToString("F1")}, {position.Z.ToString("F1")}");
+                    if (!photonPlayer.IsLocal) UIUtil.Button("PlayerInfo.TeleportToPlayer", () => LocalPlayer.LocalPlayerPosition = (position + new Vector3(0f, 0.6f, 0f)));
                 });
             };
             if (Settings.PlayerInfoSeperateWindows) MapController.Players.ForEach(p => UIUtil.Area("PlayerInfo.Title", () => ShowPlayerInfo(p)));

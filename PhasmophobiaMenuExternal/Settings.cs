@@ -12,7 +12,7 @@ namespace PhasmophobiaMenuExternal
     {
         // Menu Settings
 
-        public static string Version = "v1.0.6";
+        public static string Version = "v1.0.7";
         public static bool FirstLaunch = true;
 
         // Hack Settings

@@ -1,111 +1,80 @@
-﻿using PhasmophobiaMenuExternal.Cheats;
-using PhasmophobiaMenuExternal.Cheats.Core;
-using SimpleMemoryReading64and32;
+﻿using SimpleMemoryReading64and32;
+using System.Numerics;
 
 namespace PhasmophobiaMenuExternal
 {
     public class Offsets
     {
-        public static IntPtr GhostController;
-        public static IntPtr MapController;
+        public static IntPtr GhostAI;
         public static IntPtr CursedItemsController;
+        public static IntPtr MapController;
+
         public static IntPtr FOV;
-        public static IntPtr PlayerX;
-        
-        public static string GhostControllerPattern = "E0 57 09 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 00 00 00 00 00 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? 00 00 00 ?? ?? 00 00 ?? 00 00 00";
-        public static string MapControllerPattern = "B0 EF F7 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 01 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ?? ?? ?? 00 00 01 00 00 00 00 00 00 00 00 00 00 00";
-        public static string CursedItemsControllerPattern = "A0 08 60 ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 ?? ?? ?? ?? ?? ?? 00 00 ?? ?? ?? ??";
-        public static string FOVPattern = "00 00 B4 42 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 80 3F 00 00 00 00";
-        public static string PlayerXPattern = "?? ?? ?? 41 ?? ?? ?? ?? ?? ?? ?? ?? 00 00 00 00 00 00 00 00 ?? ?? ?? ?? 00 00 00 00 ?? ?? ?? 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00 66 66 46 3F 00 00 00 00 00 00 00 00 00 00 00 80 00 00 00 80 00 00 00 80 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 80 3F 00 00 00 00 00 00 00 00";
+        public static IntPtr LocalPlayerPosition;
 
+        public static string FOVPattern = "?? ?? B4 42 ?? ?? ?? ?? ?? ?? 80 3F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 80 3F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 80 3F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 80 3F ?? ?? 80 3F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 80 3F";
+        public static string LocalPlayerPositionPattern = "?? ?? ?? 41 ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 3F ?? ?? 80 3F ?? ?? 80 3F ?? ?? 80 3F ?? ?? ?? ?? ?? ?? ?? ?? 66 66 46 3F ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? ?? 80 ?? ?? ?? 80 ?? ?? ?? 80 ?? ?? 80 3F ?? ?? 80 3F ?? ?? 80 3F ?? ?? 80 3F";
 
-        public static IntPtr KillPlayer => Program.GameAssembly + 0xB1D860;
-        public static IntPtr StartKillingPlayer => Program.GameAssembly + 0xB1DEE0;
-        public static IntPtr StartKillingPlayerNetworked => Program.GameAssembly + 0xB1DE30;
-
-        private static bool Scanning = false;
-
-        public static void UpdateOffsets()
+        public static void Initialize()
         {
-            if (Scanning) return;
-            Scanning = true;
-            Thread updateThread = new Thread(() =>
+            Hooks.HookTriggered += (sender, hookMessage) =>
             {
-                Console.WriteLine("Started AOB scanning");
-                GhostController = Program.SimpleMemoryReading.PrivateMemoryRegions.AsParallel().Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.ReadWrite && r.State == Imports.MemoryState.Commit).SelectMany(r => Program.SimpleMemoryReading.AOBScanRegion(r, GhostControllerPattern)).Where(a =>
+                Console.WriteLine($"{hookMessage.Name} address {hookMessage.Address}");
+                switch (hookMessage.Name)
                 {
-                    int v1 = Program.SimpleMemoryReading.Read<int>(a + 0x68);
-                    int v2 = Program.SimpleMemoryReading.Read<int>(a + 0xac);
-                    float v3 = Program.SimpleMemoryReading.Read<float>(a + 0xb0);
-                    float v4 = Program.SimpleMemoryReading.Read<float>(a + 0xa8);
-                    IntPtr levelController = Program.SimpleMemoryReading.ReadPointer(a + 0x78);
-                    int v5 = Program.SimpleMemoryReading.Read<int>(levelController + 0x78);
-                    int v6 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf0);
-                    int v7 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf4);
-                    int v8 = Program.SimpleMemoryReading.Read<int>(levelController + 0xf8);
-                    IntPtr photonView = Program.SimpleMemoryReading.ReadPointer(a + 0x20);
-                    int v9 = Program.SimpleMemoryReading.Read<int>(photonView + 0x7C);
-                    int v10 = Program.SimpleMemoryReading.Read<int>(photonView + 0x68);
-                    return (v1 == 0 || v1 == 1) && (v2 == 0 || v2 == 1) && v3 >= 0 && v3 < 1000 && v4 >= 0 && v4 < 1000 && levelController != IntPtr.Zero && (v5 == 0 || v5 == 1) && v6 >= 0 && v6 < 1000 && v7 >= 0 && v7 < 1000 && v8 >= 0 && v8 < 1000 && photonView != IntPtr.Zero && (v9 == 0 || v9 == 1) && (v10 == 0 || v10 == 1);
-                }).FirstOrDefault();
-                Console.WriteLine($"AOB Scanned Ghost Controller Address {GhostController.ToString("X")}");
+                    case "GhostAIStart":
+                        GhostAI = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
+                        Update();
+                        break;
+                    case "CursedItemsControllerStart":
+                        CursedItemsController = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
+                        break;
+                    case "MapControllerStart":
+                        MapController = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
+                        break;
+                }
+            };
+        }
 
-                CursedItemsController = Program.SimpleMemoryReading.PrivateMemoryRegions.AsParallel().Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.ReadWrite && r.State == Imports.MemoryState.Commit).SelectMany(r => Program.SimpleMemoryReading.AOBScanRegion(r, CursedItemsControllerPattern)).Where(a =>
+        public static void Update()
+        {
+            Thread offsetsUpdateThread = new Thread(() =>
+            {
+                FOV = IntPtr.Zero;
+                LocalPlayerPosition = IntPtr.Zero;
+
+                Console.WriteLine("AOB scanning started");
+
+                foreach (Imports.Region region in Program.SimpleMemoryReading.PrivateMemoryRegions.Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.NoAccess && r.State == Imports.MemoryState.Commit))
                 {
-                    return new[]
+                    if (FOV == IntPtr.Zero)
                     {
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x20),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x28),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x30),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x38),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x40),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x48),
-                        Program.SimpleMemoryReading.ReadPointer(a + 0x50)
-                }.Count(p => p != IntPtr.Zero) == 1;
-                }).FirstOrDefault();
-                Console.WriteLine($"AOB Scanned Cursed Items Controller Address {CursedItemsController.ToString("X")}");
+                        FOV = Program.SimpleMemoryReading.AOBScanRegion(region, FOVPattern).Where(a =>
+                        {
+                            float value = Program.SimpleMemoryReading.Read<float>(a);
+                            return value >= 10 && value < 180;
+                        }).FirstOrDefault();
+                        if (FOV != IntPtr.Zero) Console.WriteLine($"AOB scanned FOV address {FOV.ToString("X")}");
+                    }
 
-                MapController = Program.SimpleMemoryReading.PrivateMemoryRegions.AsParallel().Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.ReadWrite && r.State == Imports.MemoryState.Commit).SelectMany(r => Program.SimpleMemoryReading.AOBScanRegion(r, MapControllerPattern)).Where(a =>
-                {
-                    int v1 = Program.SimpleMemoryReading.Read<int>(a + 0x38);
-                    float v2 = Program.SimpleMemoryReading.Read<float>(a + 0x3c);
-                    float v3 = Program.SimpleMemoryReading.Read<float>(a + 0x40);
-                    return v1 >= 0 && v1 < 100 && v2 >= 0 && v2 < 100 && v3 >= 0 && v3 < 100;
-                }).FirstOrDefault();
-                Console.WriteLine($"AOB Scanned Map Controller Address {MapController.ToString("X")}");
+                    if (LocalPlayerPosition == IntPtr.Zero)
+                    {
+                        LocalPlayerPosition = Program.SimpleMemoryReading.AOBScanRegion(region, LocalPlayerPositionPattern).Where(a =>
+                        {
+                            Vector3 value = Program.SimpleMemoryReading.Read<Vector3>(a);
+                            return Math.Abs(value.X) <= 10000 && Math.Abs(value.Y) <= 10000 && Math.Abs(value.Z) <= 10000;
+                        }).FirstOrDefault();
+                        if (LocalPlayerPosition != IntPtr.Zero) Console.WriteLine($"AOB scanned Local Player Position address {LocalPlayerPosition.ToString("X")}");
+                    }
 
-                FOV = Program.SimpleMemoryReading.PrivateMemoryRegions.AsParallel().Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.NoAccess && r.State == Imports.MemoryState.Commit).SelectMany(r => Program.SimpleMemoryReading.AOBScanRegion(r, FOVPattern)).Where(a =>
-                {
-                    float v = Program.SimpleMemoryReading.Read<float>(a);
-                    return v >= 10 && v < 180;
-                }).FirstOrDefault();
-                Console.WriteLine($"AOB Scanned FOV Address {FOV.ToString("X")}");
-
-                PlayerX = Program.SimpleMemoryReading.PrivateMemoryRegions.AsParallel().SelectMany(r => Program.SimpleMemoryReading.AOBScanRegion(r, PlayerXPattern)).Where(a =>
-                {
-                    float v1 = Program.SimpleMemoryReading.Read<float>(a);
-                    float v2 = Program.SimpleMemoryReading.Read<float>(a + 0x4);
-                    float v3 = Program.SimpleMemoryReading.Read<float>(a + 0x8);
-                    return v1 >= -10000 && v1 <= 10000 && v2 >= -10000 && v2 <= 10000 && v3 >= -10000 && v3 <= 10000;
-                }).FirstOrDefault();
-                Console.WriteLine($"AOB Scanned Player X Address {PlayerX.ToString("X")}");
+                    if (FOV != IntPtr.Zero && LocalPlayerPosition != IntPtr.Zero) break;
+                }
 
                 Console.WriteLine("Completed AOB scanning");
-
-                Console.WriteLine($"Kill Player Address {KillPlayer.ToString("X")}");
-                Console.WriteLine($"Start Killing Player Address {StartKillingPlayer.ToString("X")}");
-                Console.WriteLine($"Start Killing Player Networked Address {StartKillingPlayerNetworked.ToString("X")}");
-
-                if (Cheat.Instance<GodMode>().Enabled)
-                {
-                    Cheat.Instance<GodMode>().OnDisable();
-                    Cheat.Instance<GodMode>().OnEnable();
-                }
-                Scanning = false;
             });
-            updateThread.IsBackground = true;
-            updateThread.Priority = ThreadPriority.Highest;
-            updateThread.Start();
+            offsetsUpdateThread.IsBackground = true;
+            offsetsUpdateThread.Priority = ThreadPriority.Highest;
+            offsetsUpdateThread.Start();
         }
     }
 }

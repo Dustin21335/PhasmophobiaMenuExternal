@@ -1,8 +1,18 @@
 ﻿namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class GhostAI
+    public static class GhostAI
     {
-        public IntPtr Pointer => Program.SimpleMemoryReading.ReadPointer(GhostController.Pointer, 0x90);
+        public static IntPtr Pointer => Offsets.GhostAI;
+
+        public static GhostInfo GhostInfo => new GhostInfo();
+
+        public static GhostModel GhostModel => new GhostModel();
+
+        public static GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Pointer, 0x30);
+
+        public static Player BansheeTarget => new Player(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x110));
+
+        public static bool IsHunting => Program.SimpleMemoryReading.Read<bool>(Pointer + 0xF9);
 
         public enum GhostStates
         {
@@ -31,9 +41,5 @@
             Salt = 22,
             Ignite = 23
         }
-
-        public GhostInfo GhostInfo => new GhostInfo();
-        public GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Pointer, 0x30);
-        public bool IsHunting => GhostState == GhostStates.Hunting;
     }
 }

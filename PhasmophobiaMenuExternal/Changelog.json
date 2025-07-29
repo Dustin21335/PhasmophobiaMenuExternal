@@ -1,5 +1,70 @@
 ﻿{
   "Changelogs": {
+    "1.0.7": {
+      "Entries": {
+        "Added": [
+          {
+            "Name": "Hooks",
+            "Description": "Hooks methods and returns their addresses when there called"
+          },
+          {
+            "Name": "Player Info Position",
+            "Description": "Tells you the players position"
+          },
+          {
+            "Name": "Teleport To Player",
+            "Description": "Teleports you to a player"
+          },
+          {
+            "Name": "Ghost Info Position",
+            "Description": "Tells you the ghost position"
+          },
+          {
+            "Name": "Ghost Info Age",
+            "Description": "Tells you the ghost age"
+          },
+          {
+            "Name": "Ghost Info Banshee Target",
+            "Description": "Tells you the target of the ghost banshee"
+          },
+          {
+            "Name": "Ghost Info Mimic Ghost Type",
+            "Description": "Tells you the ghost type the mimic is mimicking"
+          },
+          {
+            "Name": "Ghost Info Is Male",
+            "Description": "Tells you if the ghost is male or not"
+          },
+          {
+            "Name": "Ghost Info Is Shy",
+            "Description": "Tells you if the ghost is shy or not"
+          }
+        ],
+        "Changed": [
+          {
+            "Name": "AOB Scanning",
+            "Description": "Only scanning for FOV and Local Player Position as they can't be hooked"
+          },
+          {
+            "Name": "Ghost Info Evidence",
+            "Description": "Renamed to All Possible Evidence"
+          },
+          {
+            "Name": "Ghost Info Is Hunting",
+            "Description": "Uses a bool now instead of checking ghost state"
+          }
+        ],
+        "Fixed": [
+
+        ],
+        "Removed": [
+          {
+            "Name": "God Mode",
+            "Description": "Too buggy, but may return in the future"
+          }
+        ]
+      }
+    },
     "1.0.6": {
       "Entries": {
         "Added": [

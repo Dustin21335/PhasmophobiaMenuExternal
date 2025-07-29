@@ -29,41 +29,16 @@ namespace PhasmophobiaMenuExternal.GameSDK
 
         public FirstPlayerController FirstPlayerController => new FirstPlayerController(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x128));
 
+        public PhysicsCharacterController PhysicsCharacterController => new PhysicsCharacterController(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x118));
+
+        // Localplayer only
+
         public Camera Camera => new Camera();
 
-        private IntPtr PlayerXPointer => Offsets.PlayerX;
-
-        public float PlayerX
+        public Vector3 LocalPlayerPosition
         {
-            get => Program.SimpleMemoryReading.Read<float>(PlayerXPointer);
-            set => Program.SimpleMemoryReading.Write<float>(PlayerXPointer, value);
-        }
-
-        private IntPtr PlayerYPointer => PlayerXPointer + 0x4;
-
-        public float PlayerY
-        {
-            get => Program.SimpleMemoryReading.Read<float>(PlayerYPointer);
-            set => Program.SimpleMemoryReading.Write<float>(PlayerYPointer, value);
-        }
-
-        private IntPtr PlayerZPointer => PlayerXPointer + 0x8;
-
-        public float PlayerZ
-        {
-            get => Program.SimpleMemoryReading.Read<float>(PlayerZPointer);
-            set => Program.SimpleMemoryReading.Write<float>(PlayerZPointer, value);
-        }
-
-        public Vector3 PlayerPosition
-        {
-            get => new Vector3(PlayerX, PlayerY, PlayerZ);
-            set
-            {
-                PlayerX = value.X;
-                PlayerY = value.Y;
-                PlayerZ = value.Z;
-            }
+            get => Program.SimpleMemoryReading.Read<Vector3>(Offsets.LocalPlayerPosition);
+            set => Program.SimpleMemoryReading.Write<Vector3>(Offsets.LocalPlayerPosition, value);
         }
     }
 }

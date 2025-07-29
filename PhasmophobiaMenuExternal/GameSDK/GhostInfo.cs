@@ -2,10 +2,10 @@
 {
     public class GhostInfo
     {
-        public IntPtr GhostInfoPointer => Program.SimpleMemoryReading.ReadPointer(GhostController.GhostAI.Pointer + 0x38);
+        public IntPtr Pointer => Program.SimpleMemoryReading.ReadPointer(GhostAI.Pointer + 0x38);
 
-        public GhostTraits GhostTraits => new GhostTraits(GhostInfoPointer + 0x28);
+        public GhostTraits GhostTraits => new GhostTraits();
 
-        public LevelRoom FavoriteRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(GhostInfoPointer + 0x70));
+        public LevelRoom FavoriteRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x70));
     }
 }
