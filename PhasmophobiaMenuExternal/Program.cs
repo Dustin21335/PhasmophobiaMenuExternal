@@ -210,15 +210,16 @@ namespace PhasmophobiaMenuExternal
             Vector3 position = GhostAI.GhostModel.Position;
             UIUtil.Area("GhostInfo.Title", () =>
             {
-                UIUtil.Text("GhostInfo.GhostName", $": {JournalController.GhostName.Text}");
+                UIUtil.Text("GhostInfo.Name", $": {JournalController.GhostName.Text}");
                 UIUtil.Text("GhostInfo.Age", $": {GhostAI.GhostInfo.GhostTraits.Age}");
-                UIUtil.Text("GhostInfo.GhostType", $": {GhostAI.GhostInfo.GhostTraits.GhostType}");
+                UIUtil.Text("GhostInfo.Type", $": {GhostAI.GhostInfo.GhostTraits.GhostType}");
                 if (GhostAI.GhostInfo.GhostTraits.GhostType == GhostTraits.GhostTypes.Banshee) UIUtil.Text("GhostInfo.BansheeTarget", $": {GhostAI.BansheeTarget.PhotonView.Owner.NickName}");
-                else if (GhostAI.GhostInfo.GhostTraits.GhostType == GhostTraits.GhostTypes.Mimic) UIUtil.Text("GhostInfo.MimicGhostType", $": {GhostAI.GhostInfo.GhostTraits.MimicGhostType}");
+                else if (GhostAI.GhostInfo.GhostTraits.GhostType == GhostTraits.GhostTypes.Mimic) UIUtil.Text("GhostInfo.MimicType", $": {GhostAI.GhostInfo.GhostTraits.MimicGhostType}");
                 UIUtil.Text("GhostInfo.AllPossibleEvidence", $": {string.Join(", ", GhostAI.GhostInfo.GhostTraits.AllPossibleEvidence)}");
                 UIUtil.Text("GhostInfo.AllEvidence", $": {string.Join(", ", GhostAI.GhostInfo.GhostTraits.AllEvidence)}");
+                UIUtil.Text("GhostInfo.CurrentRoom", $": {GhostAI.GhostActivity.LevelController.GhostCurrentRoom.Name}");
                 UIUtil.Text("GhostInfo.FavoriteRoom", $": {GhostAI.GhostInfo.FavoriteRoom.Name}");
-                UIUtil.Text("GhostInfo.GhostState", $": {GhostAI.GhostState}");
+                UIUtil.Text("GhostInfo.State", $": {GhostAI.GhostState}");
                 UIUtil.Text("GhostInfo.IsMale", $": {GhostAI.GhostInfo.GhostTraits.IsMale}");
                 UIUtil.Text("GhostInfo.IsShy", $": {GhostAI.GhostInfo.GhostTraits.IsShy}");
                 UIUtil.Text("GhostInfo.IsHunting", $": {GhostAI.IsHunting}");

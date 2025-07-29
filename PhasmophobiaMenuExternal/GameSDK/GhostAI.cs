@@ -8,6 +8,8 @@
 
         public static GhostModel GhostModel => new GhostModel();
 
+        public static GhostActivity GhostActivity => new GhostActivity();
+
         public static GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Pointer, 0x30);
 
         public static Player BansheeTarget => new Player(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x110));
