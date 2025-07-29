@@ -15,14 +15,13 @@
   - **Change Log:** Shows everything added, changed, fixed, or removed.
 
   #### Self Tab 
-  - **God Mode:** Prevents you from dying.
-  - **Infinite Sanity:** Sets your sanity to 100 making it infinite.
-  - **Infinite Stamina:** Sets your stamina to 100 making it infinite.
-  - **Speed Hack:** Global speed hack toggle.
+  - **Infinite Sanity:** Sets your sanity to 100 making it infinite with update delay.
+  - **Infinite Stamina:** Sets your stamina to 100 making it infinite with update delay.
+  - **Speed Hack:** Global speed hack toggle with update delay with update delay.
   - **Speed:** The number the speed hack uses for your character speed.
-  - **Gamma Hack:** Global gamma toggle.
+  - **Gamma Hack:** Global gamma toggle with update delay.
   - **Gamma:** The number the gamma hack uses for the brightness.
-  - **FOV Hack:** Global fov toggle.
+  - **FOV Hack:** Global fov toggle with update delay.
   - **FOV:** The number the fov hack uses for your character field of view.
  
   #### Misc Tab 
