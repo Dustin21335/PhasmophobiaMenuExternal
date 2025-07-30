@@ -1,6 +1,11 @@
 # Phasmophobia External
 <sup>A Phasmophobia External Cheat by [Dustin](https://github.com/Dustin21335) | [Discord Server](https://discord.gg/D6wuXEnfhP)</sup>
 
+[![](https://img.shields.io/github/v/release/Dustin21335/PhasmophobiaMenuExternal?label=latest&style=for-the-badge)](https://github.com/Dustin21335/PhasmophobiaMenuExternal)
+[![](https://img.shields.io/github/downloads/Dustin21335/PhasmophobiaMenuExternal/total.svg?style=for-the-badge)]([https://github.com/Dustin21335/SimpleMemoryReading/graphs/contributors](https://github.com/Dustin21335/PhasmophobiaMenuExternal/releases/))
+[![](https://img.shields.io/github/contributors/Dustin21335/SimpleMemoryReading?style=for-the-badge)](https://github.com/Dustin21335/SimpleMemoryReading/graphs/contributors)
+[![](https://img.shields.io/discord/1190570140924919920?label=discord&style=for-the-badge&color=blueviolet)](https://discord.gg/nPZjh6HeCz)
+
 #### Screenshots
 <p>
   <img src="https://i.imgur.com/aNGJ7NO.png" width="1022" height="590" />
