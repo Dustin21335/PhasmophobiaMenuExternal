@@ -1,6 +1,5 @@
 ﻿using FridaNet;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace PhasmophobiaMenuExternal
 {
@@ -11,7 +10,7 @@ namespace PhasmophobiaMenuExternal
             [JsonProperty("Name")]
             public string Name { get; set; }
 
-            [JsonProperty("address")]
+            [JsonProperty("Address")]
             public string Address { get; set; }
         }
 
@@ -67,14 +66,12 @@ namespace PhasmophobiaMenuExternal
 
         private static void OnMessage(object sender, FridaNetScriptMessageEventArgs e)
         {
-            JObject json = JObject.Parse(e.Message);
-            string type = json["type"]?.ToString();
-            if (type == "send")
+            if (e.MessageType == FridaNetMessageType.Send)
             {
-                HookMessage hookMessage = json["payload"].ToObject<HookMessage>();
+                HookMessage hookMessage = JsonConvert.DeserializeObject<HookMessage>(e.Payload);
                 if (hookMessage != null) HookTriggered?.Invoke(sender, hookMessage);
             }
-            else Console.WriteLine($"{type}");
+            else Console.WriteLine($"{e.Message}");
         }
     }
 }
