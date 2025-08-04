@@ -7,21 +7,6 @@ namespace PhasmophobiaMenuExternal
 {
     public class FridaNetManager
     {
-        public class HookMessage
-        {
-            [JsonProperty("Name")]
-            public string Name { get; set; }
-
-            [JsonProperty("Address")]
-            public string Address { get; set; }
-        }
-
-        public class InvokeMessage
-        {
-            [JsonProperty("Result")]
-            public string Result { get; set; }
-        }
-
         private static FridaNetDeviceManager deviceManager = new FridaNetDeviceManager();
         private static FridaNetDevice device;
         private static FridaNetSession session;
@@ -52,7 +37,6 @@ namespace PhasmophobiaMenuExternal
         public static void HookMethod(string hookName, IntPtr rvaOffset)
         {
             if (AllHooks.ContainsKey(hookName)) return;
-            Console.WriteLine($"Hooking {hookName}");
             string hookMethodJavascript = $@"
                 Interceptor.attach(Process.getModuleByName('GameAssembly.dll').base.add(ptr('0x{rvaOffset.ToInt64():X}')), {{
                     onEnter: function(args) {{
@@ -67,18 +51,15 @@ namespace PhasmophobiaMenuExternal
             fridaNetScript.Message += OnHookMessage;
             fridaNetScript.Load();
             AllHooks.Add(hookName, fridaNetScript);
-            Console.WriteLine($"Hooked {hookName}");
         }
 
         public static void UnHookMethod(string hookName)
         {
             if (!AllHooks.TryGetValue(hookName, out FridaNetScript? fridaNetScript) || fridaNetScript == null) return;
-            Console.WriteLine($"Unhooking {hookName}");
             fridaNetScript.Message -= OnHookMessage;
             fridaNetScript.Unload();
             fridaNetScript.Dispose();
             AllHooks.Remove(hookName);
-            Console.WriteLine($"Unhooked {hookName}");
         }
 
         public static async Task<IntPtr> InvokeMethod(string methodName, IntPtr instanceAddress, IntPtr rvaOffset, string? type = null, params IntPtr[] parameters)
@@ -149,5 +130,20 @@ namespace PhasmophobiaMenuExternal
             Marshal.Copy(bytes, 0, address, bytes.Length);
             return address;
         }
+    }
+
+    public class HookMessage
+    {
+        [JsonProperty("Name")]
+        public string Name { get; set; }
+
+        [JsonProperty("Address")]
+        public string Address { get; set; }
+    }
+
+    public class InvokeMessage
+    {
+        [JsonProperty("Result")]
+        public string Result { get; set; }
     }
 }

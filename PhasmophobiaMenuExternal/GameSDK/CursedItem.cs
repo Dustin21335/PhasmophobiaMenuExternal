@@ -4,7 +4,10 @@ namespace PhasmophobiaMenuExternal.GameSDK
 {
     public class CursedItem : MemoryObject
     {
-        public CursedItem(IntPtr address) : base(address) { }
+        public CursedItem(string name, IntPtr address) : base(address) 
+        {
+            Name = name;
+        }
 
         public string Name;
 

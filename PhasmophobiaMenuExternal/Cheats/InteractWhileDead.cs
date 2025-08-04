@@ -29,7 +29,7 @@ namespace PhasmophobiaMenuExternal.Cheats
             if (localPlayer != null) Disable(localPlayer.Address);
         }
 
-        private void OnHookMessage(object? sender, FridaNetManager.HookMessage e)
+        private void OnHookMessage(object? sender, HookMessage e)
         {
             if (Enabled) Enable(new IntPtr(Convert.ToInt64(e.Address, 16)));
         }

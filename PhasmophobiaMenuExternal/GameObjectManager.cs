@@ -8,9 +8,11 @@ namespace PhasmophobiaMenuExternal
     {
         public static Player? LocalPlayer => Players?.FirstOrDefault(p => p.PhotonView.Owner.IsLocal);
         public static List<Player> Players => MapController?.Players;
+        public static List<CursedItem> CursedItems => CursedItemsController?.AllCursedItems.Where(c => c.Address != IntPtr.Zero).ToList();
+
         public static GhostAI GhostAI;
-        public static List<CursedItem> CursedItems = new List<CursedItem>();
         public static MapController MapController;
+        public static CursedItemsController CursedItemsController;
 
 
         public static IntPtr FOV;
@@ -22,22 +24,21 @@ namespace PhasmophobiaMenuExternal
         public static void Initialize()
         {
             FridaNetManager.HookMethod("GhostAIStart", 0x1CD31F0);
-            FridaNetManager.HookMethod("CursedItemInitNetworked", 0x2442880);
+            FridaNetManager.HookMethod("CursedItemsControllerAwake", 0x1F57640);
             FridaNetManager.HookMethod("MapControllerAwake", 0x201B130);
             FridaNetManager.HookMethod("MainManagerAwake", 0x8C9900);
 
             FridaNetManager.OnHookMessageTriggered += (sender, hookmessage) =>
             {
                 IntPtr address = new IntPtr(Convert.ToInt64(hookmessage.Address, 16));
-                Console.WriteLine($"{hookmessage.Name} address {hookmessage.Address}");
                 switch (hookmessage.Name)
                 {
                     case "GhostAIStart":
                         GhostAI = new GhostAI(address);
                         UpdatePatternAddresses();
                         break;
-                    case "CursedItemInitNetworked":
-                        CursedItems.Add(new CursedItem(address));
+                    case "CursedItemsControllerAwake":
+                        CursedItemsController = new CursedItemsController(address);
                         break;
                     case "MapControllerAwake":
                         MapController = new MapController(address);

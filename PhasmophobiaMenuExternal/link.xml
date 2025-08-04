@@ -1,5 +1,7 @@
 ﻿<linker>
   <assembly fullname="PhasmophobiaMenuExternal">
     <namespace fullname="PhasmophobiaMenuExternal.Cheats" preserve="all" />
+	<type fullname="PhasmophobiaMenuExternal.HookMessage" preserve="all"/>
+    <type fullname="PhasmophobiaMenuExternal.InvokeMessage" preserve="all"/>
   </assembly>
 </linker>
