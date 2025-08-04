@@ -1,18 +1,15 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class LevelRoom
+    public class LevelRoom : MemoryObject
     {
-        public LevelRoom(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public LevelRoom(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
+        public string Name => new mString(Program.SimpleMemoryReading.ReadPointer(Address + 0x60)).Value;
 
-        public string Name => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x60)).Value;
+        public int TimePlayerBeenInRoom => Program.SimpleMemoryReading.Read<int>(Address + 0x74);
 
-        public int TimePlayerBeenInRoom => Program.SimpleMemoryReading.Read<int>(Pointer + 0x74);
-
-        public bool IsBasementOrAttic => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x78);
+        public bool IsBasementOrAttic => Program.SimpleMemoryReading.Read<bool>(Address + 0x78);
     }
 }

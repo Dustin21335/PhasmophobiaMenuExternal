@@ -4,19 +4,15 @@ using System.Runtime.InteropServices;
 
 namespace PhasmophobiaMenuExternal.Cheats
 {
-    public class GammaHack : TaskCheat
+    public class GammaHack : ToggleCheat
     {
-        public GammaHack()
-        {
-            Value = 2.0f;
-        }
-
+        public FloatValueSetting Gamma = new FloatValueSetting("Gamma", 2f);
         private float OriginalGamma = -1f;
 
         public override void OnEnable()
         {
             if (OriginalGamma == -1f) OriginalGamma = GetGamma();
-            SetGamma(Value);
+            SetGamma(Gamma.Value);
         }
 
         public override void OnDisable()
@@ -25,14 +21,13 @@ namespace PhasmophobiaMenuExternal.Cheats
             OriginalGamma = -1f;
         }
 
-        public override Task Update()
+        public override void Update()
         {
             if (OriginalGamma != -1f)
             {
                 if (!IsProcessFocused(Program.SimpleMemoryReading.Process) && !IsProcessFocused(Process.GetCurrentProcess())) SetGamma(OriginalGamma);
-                else if (GetGamma() != Value) SetGamma(Value);
+                else if (GetGamma() != Gamma.Value) SetGamma(Gamma.Value);
             }
-            return Task.CompletedTask;
         }
 
         public override void OnApplicationQuit()

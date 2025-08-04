@@ -1,18 +1,14 @@
-﻿using System.Text;
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+using System.Text;
 
 namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class mString
+    public class mString : MemoryObject
     {
-        public mString(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public mString(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
+        public int Length => Program.SimpleMemoryReading.Read<int>(Address + 0x10);
 
-        public int Length => Program.SimpleMemoryReading.Read<int>(Pointer + 0x10);
-
-        public string Value => Program.SimpleMemoryReading.ReadString(Pointer + 0x14, Length * 2, Encoding.Unicode);
+        public string Value => Program.SimpleMemoryReading.ReadString(Address + 0x14, Length * 2, Encoding.Unicode);
     }
 }

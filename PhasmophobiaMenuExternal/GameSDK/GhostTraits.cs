@@ -1,22 +1,24 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class GhostTraits
+    public class GhostTraits : MemoryObject
     {
-        public IntPtr Pointer => GhostAI.GhostInfo.Pointer + 0x28;
+        public GhostTraits(IntPtr address) : base(address) { }
 
-        public int Age => Program.SimpleMemoryReading.Read<int>(Pointer + 0x18);
+        public int Age => Program.SimpleMemoryReading.Read<int>(Address + 0x18);
 
-        public bool IsMale => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x1C);
+        public bool IsMale => Program.SimpleMemoryReading.Read<bool>(Address + 0x1C);
 
-        public bool IsShy => Program.SimpleMemoryReading.Read<bool>(Pointer + 0x30);
+        public bool IsShy => Program.SimpleMemoryReading.Read<bool>(Address + 0x30);
 
-        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Pointer + 0x0);
+        public GhostTypes GhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Address + 0x0);
 
-        public GhostTypes MimicGhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Pointer + 0x4);
+        public GhostTypes MimicGhostType => (GhostTypes)Program.SimpleMemoryReading.Read<int>(Address + 0x4);
 
-        public List<Evidences> AllPossibleEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x8)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
+        public List<Evidences> AllPossibleEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Address + 0x8)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
 
-        public List<Evidences> AllEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x10)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
+        public List<Evidences> AllEvidence => new mList(Program.SimpleMemoryReading.ReadPointer(Address + 0x10)).GetEntries(4).Select(e => (Evidences)Program.SimpleMemoryReading.Read<int>(e)).ToList();
 
         public enum GhostTypes
         {

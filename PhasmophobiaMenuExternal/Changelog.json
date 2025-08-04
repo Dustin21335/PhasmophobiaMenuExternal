@@ -1,5 +1,28 @@
 ﻿{
   "Changelogs": {
+    "1.0.8": {
+      "Entries": {
+        "Added": [
+          {
+            "Name": "Interactable While Dead",
+            "Description": "Lets you interact with alive player objects when dead"
+          },
+          {
+            "Name": "Redid most of the menus structure",
+            "Description": "Recoded a lot of stuff to make the code cleaner"
+          }
+        ],
+        "Changed": [
+
+        ],
+        "Fixed": [
+
+        ],
+        "Removed": [
+
+        ]
+      }
+    },
     "1.0.7": {
       "Entries": {
         "Added": [

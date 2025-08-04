@@ -1,14 +1,11 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class Equipment
+    public class Equipment : MemoryObject
     {
-        public Equipment(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public Equipment(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
-
-        public Prop Prop => new Prop(Pointer);
+        public Prop Prop => new Prop(Address);
     }
 }

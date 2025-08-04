@@ -1,17 +1,13 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
-{
-    public class CursedItem
-    {
-        public CursedItem(IntPtr pointer, string name)
-        {
-            Pointer = pointer;
-            Name = name;    
-        }
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
 
-        public IntPtr Pointer;
+namespace PhasmophobiaMenuExternal.GameSDK
+{
+    public class CursedItem : MemoryObject
+    {
+        public CursedItem(IntPtr address) : base(address) { }
 
         public string Name;
 
-        public Equipment Equipment => new Equipment(Pointer);
+        public Equipment Equipment => new Equipment(Address);
     }
 }

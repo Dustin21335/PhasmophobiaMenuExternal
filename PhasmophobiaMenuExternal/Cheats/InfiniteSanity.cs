@@ -2,12 +2,11 @@
 
 namespace PhasmophobiaMenuExternal.Cheats
 {
-    public class InfiniteSanity : TaskCheat
+    public class InfiniteSanity : ToggleCheat
     {
-        public override Task Update()
+        public override void Update()
         {
-            if (Program.LocalPlayer != null && Program.LocalPlayer.PlayerSanity.Sanity != 100) Program.LocalPlayer.PlayerSanity.Sanity = 100f;
-            return Task.CompletedTask;
+            if (GameObjectManager.LocalPlayer != null && GameObjectManager.LocalPlayer.PlayerSanity.Sanity != 100) GameObjectManager.LocalPlayer.PlayerSanity.Sanity = 100f;
         }
     }
 }

@@ -11,16 +11,16 @@ namespace PhasmophobiaMenuExternal.Utils
 
         public static void Checkbox(string[] label, ref bool value) => ImGui.Checkbox(Localization.Localize(label), ref value);
 
-        public static void Checkbox(string label, Cheat cheat)
+        public static void Checkbox(string label, ToggleCheat toggleCheat)
         {
-            bool enabled = cheat.Enabled;
-            if (ImGui.Checkbox(Localization.Localize(label), ref enabled)) cheat.Enabled = enabled;
+            bool enabled = toggleCheat.Enabled;
+            if (ImGui.Checkbox(Localization.Localize(label), ref enabled)) toggleCheat.Enabled = enabled;
         }
 
-        public static void Checkbox(string[] label, Cheat cheat)
+        public static void Checkbox(string[] label, ToggleCheat toggleCheat)
         {
-            bool enabled = cheat.Enabled;
-            if (ImGui.Checkbox(Localization.Localize(label), ref enabled)) cheat.Enabled = enabled;
+            bool enabled = toggleCheat.Enabled;
+            if (ImGui.Checkbox(Localization.Localize(label), ref enabled)) toggleCheat.Enabled = enabled;
         }
 
         public static void Slider(string label, ref int value, int min, int max)
@@ -43,16 +43,6 @@ namespace PhasmophobiaMenuExternal.Utils
             ImGui.SliderFloat(Localization.Localize(label), ref value, min, max);
         }
 
-        public static void Slider(string label, Cheat cheat, float min, float max)
-        {
-            ImGui.SliderFloat(Localization.Localize(label), ref cheat.Value, min, max);
-        }
-
-        public static void Slider(string[] label, Cheat cheat, float min, float max)
-        {
-            ImGui.SliderFloat(Localization.Localize(label), ref cheat.Value, min, max);
-        }
-
         public static void SliderCheckbox(string label, ref bool enabled, ref float value, float min, float max)
         {
             Checkbox(label, ref enabled);
@@ -64,35 +54,49 @@ namespace PhasmophobiaMenuExternal.Utils
         {
             Checkbox(label, ref enabled);
             SameLine();
-            Slider(label, ref value, min, max);
+            Slider($"##{label}", ref value, min, max);
         }
 
         public static void SliderCheckbox(string[] label, ref bool enabled, ref float value, float min, float max)
         {
             Checkbox(label, ref enabled);
             SameLine();
-            Slider(label, ref value, min, max);
+            Slider($"##{label}", ref value, min, max);
         }
 
         public static void SliderCheckbox(string[] label, ref bool enabled, ref int value, int min, int max)
         {
             Checkbox(label, ref enabled);
             SameLine();
-            Slider(label, ref value, min, max);
+            Slider($"##{label}", ref value, min, max);
         }
 
-        public static void SliderCheckbox(string label, TaskCheat taskCheat, int min, int max)
+        public static void SliderCheckbox(string label, ToggleCheat toggleCheat, ref float value, float min, float max)
         {
-            Checkbox($"##{label}", taskCheat);
+            Checkbox(label, toggleCheat);
             SameLine();
-            Slider(label, ref taskCheat.Delay, min, max);
+            Slider($"##{label}", ref value, min, max);
         }
 
-        public static void SliderCheckbox(string label, ref TaskCheat taskCheat, ref int value, int min, int max)
+        public static void SliderCheckbox(string label, ToggleCheat toggleCheat, ref int value, int min, int max)
         {
-            Checkbox($"##{label}", taskCheat);
+            Checkbox(label, toggleCheat);
             SameLine();
-            Slider(label, ref taskCheat.Delay, min, max);
+            Slider($"##{label}", ref value, min, max);
+        }
+
+        public static void SliderCheckbox(string[] label, ToggleCheat toggleCheat, ref float value, float min, float max)
+        {
+            Checkbox(label, toggleCheat);
+            SameLine();
+            Slider($"##{label}", ref value, min, max);
+        }
+
+        public static void SliderCheckbox(string[] label, ToggleCheat toggleCheat, ref int value, int min, int max)
+        {
+            Checkbox(label, toggleCheat);
+            SameLine();
+            Slider($"##{label}", ref value, min, max);
         }
 
         public static void ColorPicker(string label, ref Vector4 color)
@@ -294,6 +298,43 @@ namespace PhasmophobiaMenuExternal.Utils
         public static void InputText(string[] label, ref string input, uint maxLength)
         {
             ImGui.InputText(Localization.Localize(label), ref input, maxLength);
+        }
+
+        public static void Columns(int count, string id = null, bool border = false) => ImGui.Columns(count, id, border);
+
+        public static void NextColumn() => ImGui.NextColumn();
+
+        public static bool Selectable(string label, bool selected, ImGuiSelectableFlags ImGuiSelectableFlags = ImGuiSelectableFlags.None)
+        {
+            return ImGui.Selectable(label, selected, ImGuiSelectableFlags);
+        }
+
+        public static void AreaChild(string label, Action action)
+        {
+            ImGui.BeginChild(Localization.Localize(label));
+            action?.Invoke();
+            ImGui.EndChild();
+        }
+
+        public static void AreaChild(string[] label, Action action)
+        {
+            ImGui.BeginChild(Localization.Localize(label));
+            action?.Invoke();
+            ImGui.EndChild();
+        }
+
+        public static void AreaChild(string label, Vector2 size, Action action)
+        {
+            ImGui.BeginChild(Localization.Localize(label), size);
+            action?.Invoke();
+            ImGui.EndChild();
+        }
+
+        public static void AreaChild(string[] label, Vector2 size, Action action)
+        {
+            ImGui.BeginChild(Localization.Localize(label), size);
+            action?.Invoke();
+            ImGui.EndChild();
         }
     }
 }

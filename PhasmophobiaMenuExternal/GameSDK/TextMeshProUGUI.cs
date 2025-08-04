@@ -1,14 +1,11 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class TextMeshProUGUI
+    public class TextMeshProUGUI : MemoryObject
     {
-        public TextMeshProUGUI(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public TextMeshProUGUI(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
-
-        public string Text => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0xE0)).Value;
+        public string Text => new mString(Program.SimpleMemoryReading.ReadPointer(Address + 0xE0)).Value;
     }
 }

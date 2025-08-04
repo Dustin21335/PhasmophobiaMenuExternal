@@ -1,17 +1,14 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class mList
+    public class mList : MemoryObject
     {
-        public mList(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }   
+        public mList(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
+        public IntPtr Items => Program.SimpleMemoryReading.ReadPointer(Address + 0x10);
 
-        public IntPtr Items => Program.SimpleMemoryReading.ReadPointer(Pointer + 0x10);
-
-        public int Count => Program.SimpleMemoryReading.Read<int>(Pointer + 0x18);
+        public int Count => Program.SimpleMemoryReading.Read<int>(Address + 0x18);
 
         public List<IntPtr> GetEntries(int size)
         {

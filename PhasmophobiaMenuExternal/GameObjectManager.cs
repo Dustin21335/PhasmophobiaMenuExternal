@@ -1,13 +1,17 @@
-﻿using SimpleMemoryReading64and32;
+﻿using PhasmophobiaMenuExternal.GameSDK;
+using SimpleMemoryReading64and32;
 using System.Numerics;
 
 namespace PhasmophobiaMenuExternal
 {
-    public class Offsets
+    public static class GameObjectManager
     {
-        public static IntPtr GhostAI;
-        public static IntPtr CursedItemsController;
-        public static IntPtr MapController;
+        public static Player? LocalPlayer => Players?.FirstOrDefault(p => p.PhotonView.Owner.IsLocal);
+        public static List<Player> Players => MapController?.Players;
+        public static GhostAI GhostAI;
+        public static List<CursedItem> CursedItems = new List<CursedItem>();
+        public static MapController MapController;
+
 
         public static IntPtr FOV;
         public static IntPtr LocalPlayerPosition;
@@ -17,34 +21,47 @@ namespace PhasmophobiaMenuExternal
 
         public static void Initialize()
         {
-            Hooks.HookTriggered += (sender, hookMessage) =>
+            FridaNetManager.HookMethod("GhostAIStart", 0x1CD31F0);
+            FridaNetManager.HookMethod("CursedItemInitNetworked", 0x2442880);
+            FridaNetManager.HookMethod("MapControllerAwake", 0x201B130);
+            FridaNetManager.HookMethod("MainManagerAwake", 0x8C9900);
+
+            FridaNetManager.OnHookMessageTriggered += (sender, hookmessage) =>
             {
-                Console.WriteLine($"{hookMessage.Name} address {hookMessage.Address}");
-                switch (hookMessage.Name)
+                IntPtr address = new IntPtr(Convert.ToInt64(hookmessage.Address, 16));
+                Console.WriteLine($"{hookmessage.Name} address {hookmessage.Address}");
+                switch (hookmessage.Name)
                 {
                     case "GhostAIStart":
-                        GhostAI = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
-                        Update();
+                        GhostAI = new GhostAI(address);
+                        UpdatePatternAddresses();
                         break;
-                    case "CursedItemsControllerStart":
-                        CursedItemsController = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
+                    case "CursedItemInitNetworked":
+                        CursedItems.Add(new CursedItem(address));
                         break;
-                    case "MapControllerStart":
-                        MapController = new IntPtr(Convert.ToInt64(hookMessage.Address, 16));
+                    case "MapControllerAwake":
+                        MapController = new MapController(address);
+                        break;
+                    case "MainManagerAwake":
+                        Clear();
                         break;
                 }
             };
         }
 
-        public static void Update()
+        public static void Clear()
+        {
+            GhostAI = null;
+            Players?.Clear();
+            CursedItems?.Clear();
+            FOV = IntPtr.Zero;
+            LocalPlayerPosition = IntPtr.Zero;
+        }
+
+        public static void UpdatePatternAddresses()
         {
             Thread offsetsUpdateThread = new Thread(() =>
             {
-                FOV = IntPtr.Zero;
-                LocalPlayerPosition = IntPtr.Zero;
-
-                Console.WriteLine("AOB scanning started");
-
                 foreach (Imports.Region region in Program.SimpleMemoryReading.PrivateMemoryRegions.Where(r => r.Protect == Imports.MemoryProtect.ReadWrite && r.AllocationProtect == Imports.MemoryProtect.NoAccess && r.State == Imports.MemoryState.Commit))
                 {
                     if (FOV == IntPtr.Zero)
@@ -54,7 +71,6 @@ namespace PhasmophobiaMenuExternal
                             float value = Program.SimpleMemoryReading.Read<float>(a);
                             return value >= 10 && value < 180;
                         }).FirstOrDefault();
-                        if (FOV != IntPtr.Zero) Console.WriteLine($"AOB scanned FOV address {FOV.ToString("X")}");
                     }
 
                     if (LocalPlayerPosition == IntPtr.Zero)
@@ -63,14 +79,11 @@ namespace PhasmophobiaMenuExternal
                         {
                             Vector3 value = Program.SimpleMemoryReading.Read<Vector3>(a);
                             return Math.Abs(value.X) <= 10000 && Math.Abs(value.Y) <= 10000 && Math.Abs(value.Z) <= 10000;
-                        }).FirstOrDefault();
-                        if (LocalPlayerPosition != IntPtr.Zero) Console.WriteLine($"AOB scanned Local Player Position address {LocalPlayerPosition.ToString("X")}");
+                        }).FirstOrDefault();         
                     }
 
                     if (FOV != IntPtr.Zero && LocalPlayerPosition != IntPtr.Zero) break;
                 }
-
-                Console.WriteLine("Completed AOB scanning");
             });
             offsetsUpdateThread.IsBackground = true;
             offsetsUpdateThread.Priority = ThreadPriority.Highest;

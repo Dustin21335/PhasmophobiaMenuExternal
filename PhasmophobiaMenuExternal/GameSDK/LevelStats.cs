@@ -1,14 +1,11 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class LevelStats
+    public class LevelStats : MemoryObject
     {
-        public LevelStats(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public LevelStats(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
-
-        public string BoneRoom => new mString(Program.SimpleMemoryReading.ReadPointer(Pointer + 0xB8)).Value;
+        public string BoneRoom => new mString(Program.SimpleMemoryReading.ReadPointer(Address + 0xB8)).Value;
     }
 }

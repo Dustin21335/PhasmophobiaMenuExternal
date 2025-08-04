@@ -2,22 +2,18 @@
 
 namespace PhasmophobiaMenuExternal.Cheats
 {
-    public class SpeedHack : TaskCheat
+    public class SpeedHack : ToggleCheat
     {
-        public SpeedHack()
-        {
-            Value = 2; 
-        }
+        public IntValueSetting Speed = new IntValueSetting("Speed", 2);
 
         public override void OnDisable()
         {
-            if (Program.LocalPlayer != null && Program.LocalPlayer.FirstPlayerController != null) Program.LocalPlayer.FirstPlayerController.WalkSpeed = 1.6f;
+            if (GameObjectManager.LocalPlayer != null) GameObjectManager.LocalPlayer.FirstPlayerController.WalkSpeed = 1.6f;
         }
 
-        public override Task Update()
+        public override void Update()
         {
-            if (Program.LocalPlayer != null && Program.LocalPlayer.FirstPlayerController != null && Program.LocalPlayer.FirstPlayerController.WalkSpeed != Value) Program.LocalPlayer.FirstPlayerController.WalkSpeed = Value;
-            return Task.CompletedTask;
+            if (GameObjectManager.LocalPlayer != null && GameObjectManager.LocalPlayer.FirstPlayerController.WalkSpeed != Speed.Value) GameObjectManager.LocalPlayer.FirstPlayerController.WalkSpeed = Speed.Value;
         }
     }
 }

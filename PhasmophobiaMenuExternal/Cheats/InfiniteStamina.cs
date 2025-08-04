@@ -2,12 +2,11 @@
 
 namespace PhasmophobiaMenuExternal.Cheats
 {
-    public class InfiniteStamina : TaskCheat
+    public class InfiniteStamina : ToggleCheat
     {
-        public override Task Update()
+        public override void Update()
         {
-            if (Program.LocalPlayer != null && Program.LocalPlayer.PlayerStamina != null && Program.LocalPlayer.PlayerStamina.Stamina != 100f) Program.LocalPlayer.PlayerStamina.Stamina = 100f;
-            return Task.CompletedTask;
+            if (GameObjectManager.LocalPlayer != null && GameObjectManager.LocalPlayer.PlayerStamina.Stamina != 100f) GameObjectManager.LocalPlayer.PlayerStamina.Stamina = 100f;
         }
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class GhostInfo
+    public class GhostInfo : MemoryObject
     {
-        public IntPtr Pointer => Program.SimpleMemoryReading.ReadPointer(GhostAI.Pointer + 0x38);
+        public GhostInfo(IntPtr address) : base(address) { }
 
-        public GhostTraits GhostTraits => new GhostTraits();
+        public GhostTraits GhostTraits => new GhostTraits(Address + 0x28);
 
-        public LevelRoom FavoriteRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x70));
+        public LevelRoom FavoriteRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(Address + 0x70));
     }
 }

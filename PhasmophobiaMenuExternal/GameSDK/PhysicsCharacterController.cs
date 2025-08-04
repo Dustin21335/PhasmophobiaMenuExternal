@@ -1,16 +1,12 @@
-﻿using System.Numerics;
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+using System.Numerics;
 
 namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class PhysicsCharacterController
+    public class PhysicsCharacterController : MemoryObject
     {
-        public PhysicsCharacterController(IntPtr pointer)
-        {
-            Pointer = pointer;
-        }
+        public PhysicsCharacterController(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
-
-        public Vector3 Position => Program.SimpleMemoryReading.Read<Vector3>(Pointer + 0xC8);
+        public Vector3 Position => Program.SimpleMemoryReading.Read<Vector3>(Address + 0xC8);
     }
 }

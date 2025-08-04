@@ -1,9 +1,11 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
-{
-    public class LevelController
-    {
-        public IntPtr Pointer => Program.SimpleMemoryReading.ReadPointer(GhostAI.GhostActivity.Pointer + 0x40);
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
 
-        public LevelRoom GhostCurrentRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x38));
+namespace PhasmophobiaMenuExternal.GameSDK
+{
+    public class LevelController : MemoryObject
+    {
+        public LevelController(IntPtr address) : base(address) { }
+
+        public LevelRoom GhostCurrentRoom => new LevelRoom(Program.SimpleMemoryReading.ReadPointer(Address + 0x38));
     }
 }

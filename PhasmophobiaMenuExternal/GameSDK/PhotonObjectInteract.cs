@@ -1,14 +1,11 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public class PhotonObjectInteract
+    public class PhotonObjectInteract : MemoryObject
     {
-        public PhotonObjectInteract(nint pointer)
-        {
-            Pointer = pointer;
-        }
+        public PhotonObjectInteract(IntPtr address) : base(address) { }
 
-        public IntPtr Pointer;
-
-        public PhotonView PhotonView => new PhotonView(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x20));
+        public PhotonView PhotonView => new PhotonView(Program.SimpleMemoryReading.ReadPointer(Address + 0x20));
     }
 }

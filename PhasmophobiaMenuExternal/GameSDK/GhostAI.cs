@@ -1,20 +1,20 @@
-﻿namespace PhasmophobiaMenuExternal.GameSDK
+﻿using PhasmophobiaMenuExternal.GameSDK.Core;
+
+namespace PhasmophobiaMenuExternal.GameSDK
 {
-    public static class GhostAI
+    public class GhostAI : MemoryObject
     {
-        public static IntPtr Pointer => Offsets.GhostAI;
+        public GhostAI(IntPtr address) : base(address) { }
 
-        public static GhostInfo GhostInfo => new GhostInfo();
+        public GhostInfo GhostInfo => new GhostInfo(Program.SimpleMemoryReading.ReadPointer(Address + 0x38));
 
-        public static GhostModel GhostModel => new GhostModel();
+        public GhostActivity GhostActivity => new GhostActivity(Program.SimpleMemoryReading.ReadPointer(Address + 0x58));
 
-        public static GhostActivity GhostActivity => new GhostActivity();
+        public GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Address, 0x30);
 
-        public static GhostStates GhostState => (GhostStates)Program.SimpleMemoryReading.Read<int>(Pointer, 0x30);
+        public Player BansheeTarget => new Player(Program.SimpleMemoryReading.ReadPointer(Address + 0x110));
 
-        public static Player BansheeTarget => new Player(Program.SimpleMemoryReading.ReadPointer(Pointer + 0x110));
-
-        public static bool IsHunting => Program.SimpleMemoryReading.Read<bool>(Pointer + 0xF9);
+        public bool IsHunting => Program.SimpleMemoryReading.Read<bool>(Address + 0xF9);
 
         public enum GhostStates
         {
