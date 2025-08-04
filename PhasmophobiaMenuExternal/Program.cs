@@ -1,12 +1,12 @@
 ﻿using ClickableTransparentOverlay;
 using ImGuiNET;
-using PhasmophobiaMenuExternal.Cheats;
 using PhasmophobiaMenuExternal.Cheats.Core;
 using PhasmophobiaMenuExternal.Language;
 using PhasmophobiaMenuExternal.Menu.Core;
 using PhasmophobiaMenuExternal.Utils;
 using SimpleMemoryReading64and32;
 using System.Data;
+using System.Diagnostics;
 using System.Numerics;
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -28,11 +28,8 @@ namespace PhasmophobiaMenuExternal
             {
                 if (simpleMemoryReading == null)
                 {
-                    try
-                    {
-                        simpleMemoryReading = new SimpleMemoryReading("Phasmophobia.exe");
-                    }
-                    catch { return null; }
+                    Process process = Process.GetProcessesByName("Phasmophobia").FirstOrDefault();
+                    if (process != null) simpleMemoryReading = new SimpleMemoryReading(process);
                 }
                 return simpleMemoryReading;
             }
@@ -44,14 +41,7 @@ namespace PhasmophobiaMenuExternal
         {
             get
             {
-                if (gameAssembly == IntPtr.Zero)
-                {
-                    try
-                    {
-                        gameAssembly = SimpleMemoryReading.GetModuleBase("GameAssembly.dll");
-                    }
-                    catch { return IntPtr.Zero; }
-                }
+                if (SimpleMemoryReading != null && gameAssembly == IntPtr.Zero) gameAssembly = SimpleMemoryReading.GetModuleBase("GameAssembly.dll");
                 return gameAssembly;
             }
         }
@@ -68,7 +58,6 @@ namespace PhasmophobiaMenuExternal
         [DllImport("user32.dll")]
         private static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
 
-        private static bool Loaded;
         private static Thread renderThread = new Thread(() => Instance.Start().Wait());
         public static Vector2 ScreenSize;
 
@@ -78,12 +67,7 @@ namespace PhasmophobiaMenuExternal
         public static async Task Main()
         {
             Console.WriteLine("Waiting for Phasmophobia to load");
-            while (!Loaded)
-            {
-                SimpleMemoryReading = null;
-                Loaded = SimpleMemoryReading != null && GameAssembly != IntPtr.Zero;
-                await Task.Delay(1000);
-            }
+            while (SimpleMemoryReading == null || GameAssembly == IntPtr.Zero) await Task.Delay(1000);
             Console.WriteLine("Phasmophobia loaded");
             SimpleMemoryReading.Process.EnableRaisingEvents = true;
             SimpleMemoryReading.Process.Exited += (sender, e) => Environment.Exit(0);

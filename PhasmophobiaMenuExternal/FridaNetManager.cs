@@ -33,7 +33,19 @@ namespace PhasmophobiaMenuExternal
         {
             Console.WriteLine("Initializing hooks");
             device = deviceManager.GetLocalDevice();
-            session = device.Attach(Program.SimpleMemoryReading.Process);
+            for (int i = 0; i < 5; i++)
+            {
+                try
+                {
+                    session = device.Attach(Program.SimpleMemoryReading.Process);
+                    break;
+                }
+                catch
+                {
+                    if (i == 4) return;
+                    Thread.Sleep(1000);
+                }
+            }
             Console.WriteLine("Completed initializing hooks");
         }
 

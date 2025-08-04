@@ -21,6 +21,10 @@ namespace PhasmophobiaMenuExternal.Menu.Tabs
                 UIUtil.Checkbox("MiscTab.Crosshair", Cheat.Instance<Crosshair>());
                 UIUtil.Slider("MiscTab.CrosshairSize", ref Cheat.Instance<Crosshair>().CrosshairSize.Value, 1, 50);
                 UIUtil.Slider("MiscTab.CrosshairThickness", ref Cheat.Instance<Crosshair>().CrosshairThickness.Value, 1, 25);
+                UIUtil.Text("MiscTab.LevelInfo");
+                UIUtil.Text("MiscTab.BoneLocation", $": {GameObjectManager.LocalPlayer?.PlayerStats?.LevelStats?.BoneRoom ?? "Unknown"}");
+                if (GameObjectManager.CursedItems?.Count != 0) GameObjectManager.CursedItems?.ForEach(c => UIUtil.Text("MiscTab.CursedItem", $": {c.Name ?? "Unknown"}"));
+                else UIUtil.Text("MiscTab.CursedItem", $": {"Unknown"}");
                 UIUtil.Text("MiscTab.Teleportion");
                 UIUtil.InputText("MiscTab.X", ref posX, 5);
                 UIUtil.InputText("MiscTab.Y", ref posY, 5);

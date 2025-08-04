@@ -24,7 +24,7 @@
   "MiscTab.Teleport": "Teleport",
   "MiscTab.LevelInfo": "Level Info",
   "MiscTab.BoneLocation": "Bone Location",
-  "MiscTab.CursedItems": "Cursed Items",
+  "MiscTab.CursedItem": "Cursed Item",
   "SettingsTab.Title": "Settings",
   "SettingsTab.Languages": "Languages",
   "SettingsTab.ResetSettings": "Reset Settings",
